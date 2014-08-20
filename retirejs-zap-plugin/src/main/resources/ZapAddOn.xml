@@ -1,9 +1,9 @@
 <zapaddon>
-    <name>Image Metadata</name>
-    <version>2</version>
-    <description>Display Image metadata. Exif information from JPEG and Text chunk from PNG.</description>
+    <name>RetireJS</name>
+    <version>1</version>
+    <description>Identify vulnerable JavaScript libraries</description>
     <author>Philippe Arteau (h3xStream)</author>
-    <url>https://github.com/h3xstream/burp-image-metadata</url>
+    <url>https://github.com/h3xstream/burp-retire-js</url>
     <changes/>
     <dependson/>
     <extensions>

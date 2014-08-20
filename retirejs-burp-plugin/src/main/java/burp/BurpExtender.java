@@ -11,7 +11,7 @@ public class BurpExtender implements IBurpExtender {
 
         this.callbacks = callbacks;
         this.helpers = callbacks.getHelpers();
-        this.callbacks.setExtensionName("Exif Image View");
+        this.callbacks.setExtensionName("RetireJS");
 
     }
 
