@@ -1,0 +1,20 @@
+Firefox implementation
+
+scanUri
+if(res > 0)
+    return
+else
+    scanFileName
+    if(res > 0)
+        return
+    else
+        scanFileContent
+        if(res > 0)
+            return
+        else
+            sandbox.run (evaluate function)
+
+            
+scanFileContent
+    fileContent
+    fileContentReplace

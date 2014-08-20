@@ -1,0 +1,18 @@
+<zapaddon>
+    <name>Image Metadata</name>
+    <version>2</version>
+    <description>Display Image metadata. Exif information from JPEG and Text chunk from PNG.</description>
+    <author>Philippe Arteau (h3xStream)</author>
+    <url>https://github.com/h3xstream/burp-image-metadata</url>
+    <changes/>
+    <dependson/>
+    <extensions>
+      <extension>org.zaproxy.zap.extension.retirejs</extension>
+    </extensions>
+    <ascanrules/>
+    <pscanrules/>
+    <filters/>
+    <files/>
+    <not-before-version>2.2.2</not-before-version>
+    <not-from-version/>
+</zapaddon>
