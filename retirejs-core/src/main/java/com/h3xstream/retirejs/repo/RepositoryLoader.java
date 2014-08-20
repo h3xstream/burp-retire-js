@@ -14,12 +14,14 @@ public class RepositoryLoader {
     /**
      * This switch will be mandatory in the case.
      */
-    private boolean syncWithOnlineRepository = false;
+    public static boolean syncWithOnlineRepository = true;
+
 
     public Repository load() throws IOException {
         InputStream inputStream = null;
 
         if (syncWithOnlineRepository) {
+            //TODO:Load URL from property file
             URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
             URLConnection conn = remoteRepo.openConnection();
             conn.connect();
