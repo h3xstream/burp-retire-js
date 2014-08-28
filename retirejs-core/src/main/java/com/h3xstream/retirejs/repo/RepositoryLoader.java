@@ -58,7 +58,7 @@ public class RepositoryLoader {
                 JSONArray vulnerabilities = libJson.getJSONArray("vulnerabilities");
 
                 lib.setName(key);
-                System.out.println("Building the library " + key);
+                //System.out.println("Building the library " + key);
 
                 for (int i = 0; i < vulnerabilities.length(); i++) { //Build Vulnerabilities list
                     JSONObject vuln = vulnerabilities.getJSONObject(i);
@@ -81,7 +81,7 @@ public class RepositoryLoader {
             }
             //Once all the information have been collected, the library is ready to be cache.
             repo.addLibrary(lib);
-            System.out.println(libJson.toString());
+            //System.out.println(libJson.toString());
         }
 
         return repo;
