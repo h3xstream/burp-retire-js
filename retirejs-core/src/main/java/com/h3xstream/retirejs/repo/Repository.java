@@ -1,7 +1,13 @@
 package com.h3xstream.retirejs.repo;
 
+import com.h3xstream.retirejs.util.RegexUtil;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Repository {
 
@@ -9,9 +15,8 @@ public class Repository {
 
     public void addLibrary(JsLibrary lib) {
         jsLibrares.add(lib);
+
     }
-
-
 
     /**
      * This search mode will identify the vulnerable library base on the full uri.
@@ -19,6 +24,15 @@ public class Repository {
      * @return
      */
     public List<JsLibraryResult> findByUri(String uri) {
+
+        for(JsLibrary lib : jsLibrares) {
+            for(String uriRegex : lib.getUris()) {
+                Pattern p = Pattern.compile(uriRegex);
+                String version = RegexUtil.simpleMatch(p,uri);
+                if(version != null) //Pattern match
+                    return new JsLibraryResult();
+            }
+        }
         return new ArrayList<JsLibraryResult>();
     }
 
