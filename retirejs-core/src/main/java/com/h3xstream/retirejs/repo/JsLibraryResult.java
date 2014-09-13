@@ -4,8 +4,9 @@ public class JsLibraryResult {
     private JsLibrary library;
     private JsVulnerability vuln;
 
-    public JsLibraryResult(JsLibrary library, JsVulnerability vuln;) {
-
+    public JsLibraryResult(JsLibrary library, JsVulnerability vuln) {
+        this.library = library;
+        this.vuln = vuln;
     }
 
     public JsLibrary getLibrary() {

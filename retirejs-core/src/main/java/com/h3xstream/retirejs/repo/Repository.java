@@ -1,5 +1,7 @@
 package com.h3xstream.retirejs.repo;
 
+import com.esotericsoftware.minlog.Log;
+import com.h3xstream.retirejs.util.CompareVersionUtil;
 import com.h3xstream.retirejs.util.RegexUtil;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Repository {
+
+
 
     protected List<JsLibrary> jsLibrares = new ArrayList<JsLibrary>();
 
@@ -24,16 +28,39 @@ public class Repository {
      * @return
      */
     public List<JsLibraryResult> findByUri(String uri) {
+        Log.debug("Analysing URI: "+uri);
+        List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
 
         for(JsLibrary lib : jsLibrares) {
+            if(lib.getUris()== null) {
+                //Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
+                continue;
+            }
             for(String uriRegex : lib.getUris()) {
+
+                //Extract version
                 Pattern p = Pattern.compile(uriRegex);
                 String version = RegexUtil.simpleMatch(p,uri);
-                if(version != null) //Pattern match
-                    return new JsLibraryResult();
+
+                if(version != null) { //Pattern match
+                    Log.debug("Pattern match "+uriRegex+" !");
+
+                    //Look for vulnerability affecting this specific version..
+                    for(JsVulnerability vuln : lib.getVulnerabilities()) {
+                        if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
+
+                            if(vuln.getAtOrAbove() == null ||
+                                    CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
+
+                                Log.debug("Vulnerability found!");
+                                res.add(new JsLibraryResult(lib,vuln));
+                            }
+                        }
+                    }
+                }
             }
         }
-        return new ArrayList<JsLibraryResult>();
+        return res;
     }
 
     /**

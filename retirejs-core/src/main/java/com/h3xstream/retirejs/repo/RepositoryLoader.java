@@ -1,5 +1,6 @@
 package com.h3xstream.retirejs.repo;
 
+import com.h3xstream.retirejs.util.RegexUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,7 +21,7 @@ public class RepositoryLoader {
     public Repository load() throws IOException {
         InputStream inputStream = null;
 
-        if (syncWithOnlineRepository) {
+        if (syncWithOnlineRepository) { //Remote repository
             //TODO:Load URL from property file
             URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
             URLConnection conn = remoteRepo.openConnection();
@@ -36,6 +37,7 @@ public class RepositoryLoader {
             }
         }
 
+        //Local version of the repository
         inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
         return loadFromInputStream(inputStream);
     }
@@ -62,22 +64,25 @@ public class RepositoryLoader {
 
                 for (int i = 0; i < vulnerabilities.length(); i++) { //Build Vulnerabilities list
                     JSONObject vuln = vulnerabilities.getJSONObject(i);
+                    String atOrAbove = vuln.has("atOrAbove") ? vuln.getString("atOrAbove") : null; //Optional field
                     String below = vuln.getString("below");
-                    List<String> info = objToStringList(vuln.get("info"));
-                    lib.getVulnerabilities().add(new JsVulnerability(below, info));
+                    List<String> info = objToStringList(vuln.get("info"),false);
+                    lib.getVulnerabilities().add(new JsVulnerability(atOrAbove,below, info));
                 }
             }
             if (libJson.has("extractors")) {
                 JSONObject extractor = libJson.getJSONObject("extractors");
                 //Imports various lists
                 if (extractor.has("func"))
-                    lib.setFunctions(objToStringList(extractor.get("func")));
+                    lib.setFunctions(objToStringList(extractor.get("func"),false));
                 if (extractor.has("filename"))
-                    lib.setFilename(objToStringList(extractor.get("filename")));
+                    lib.setFilename(objToStringList(extractor.get("filename"),true));
                 if (extractor.has("filecontent"))
-                    lib.setFileContents(objToStringList(extractor.get("filecontent")));
+                    lib.setFileContents(objToStringList(extractor.get("filecontent"),true));
                 if (extractor.has("hashes"))
                     lib.setHashes(objToStringMap(extractor.get("hashes")));
+                if (extractor.has("uri"))
+                    lib.setUris(objToStringList(extractor.get("uri"),true));
             }
             //Once all the information have been collected, the library is ready to be cache.
             repo.addLibrary(lib);
@@ -89,11 +94,17 @@ public class RepositoryLoader {
 
     ///Convertion utility methods
 
-    public List<String> objToStringList(Object obj) {
+    public List<String> objToStringList(Object obj,boolean replaceVersionWildcard) {
         JSONArray array = (JSONArray) obj;
         List<String> strArray = new ArrayList<String>(array.length());
         for (int i = 0; i < array.length(); i++) { //Build Vulnerabilities list
-            strArray.add(array.getString(i));
+
+            if(replaceVersionWildcard) {
+                strArray.add(RegexUtil.replaceVersion(array.getString(i)));
+            }
+            else {
+                strArray.add(array.getString(i));
+            }
         }
         return strArray;
     }

@@ -53,6 +53,23 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- Logging for the core module -->
+
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>minlog</artifactId>
+                <version>1.3</version>
+            </dependency>
+
+            <!-- JSON parser use by the core -->
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>20140107</version>
+            </dependency>
+
+            <!-- ZAP stuff -->
 
             <dependency>
                 <groupId>org.zaproxy</groupId>
