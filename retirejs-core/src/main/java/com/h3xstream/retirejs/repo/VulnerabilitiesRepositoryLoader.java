@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-public class RepositoryLoader {
+public class VulnerabilitiesRepositoryLoader {
 
     /**
      * This switch will be mandatory in the case.
@@ -18,7 +18,7 @@ public class RepositoryLoader {
     public static boolean syncWithOnlineRepository = true;
 
 
-    public Repository load() throws IOException {
+    public VulnerabilitiesRepository load() throws IOException {
         InputStream inputStream = null;
 
         if (syncWithOnlineRepository) { //Remote repository
@@ -42,11 +42,11 @@ public class RepositoryLoader {
         return loadFromInputStream(inputStream);
     }
 
-    public Repository loadFromInputStream(InputStream in) throws IOException {
+    public VulnerabilitiesRepository loadFromInputStream(InputStream in) throws IOException {
         JSONObject rootJson = new JSONObject(convertStreamToString(in));
 
 
-        Repository repo = new Repository();
+        VulnerabilitiesRepository repo = new VulnerabilitiesRepository();
 
 
         Iterator it = rootJson.keySet().iterator(); //Iterate on each library jquery, YUI, prototypejs, ...

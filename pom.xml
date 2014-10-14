@@ -53,6 +53,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.h3xstream.retirejs</groupId>
+                <artifactId>retirejs-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Logging for the core module -->
 
             <dependency>

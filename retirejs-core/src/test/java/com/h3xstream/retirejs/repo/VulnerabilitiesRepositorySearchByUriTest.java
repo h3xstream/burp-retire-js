@@ -11,9 +11,9 @@ import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Test the class Repository
+ * Test the class VulnerabilitiesRepository
  */
-public class RepositorySearchByUriTest {
+public class VulnerabilitiesRepositorySearchByUriTest {
 
     @BeforeClass
     public void setUp() {
@@ -22,9 +22,9 @@ public class RepositorySearchByUriTest {
 
     @Test
     public void findJqueryByUri() throws IOException {
-        RepositoryLoader.syncWithOnlineRepository = false;
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
 
-        Repository repo = new RepositoryLoader().load();
+        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         List<JsLibraryResult> res = repo.findByUri("/1.6.2/jquery.js");
         displayResults(res);
@@ -41,9 +41,9 @@ public class RepositorySearchByUriTest {
 
     @Test
     public void findEmberByUri() throws IOException {
-        RepositoryLoader.syncWithOnlineRepository = false;
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
 
-        Repository repo = new RepositoryLoader().load();
+        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         List<JsLibraryResult> res = repo.findByUri("/v1.3.0-1/ember.js");
         displayResults(res);

@@ -52,6 +52,11 @@
             <artifactId>burp-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.h3xstream.retirejs</groupId>
+            <artifactId>retirejs-core</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.testng</groupId>
