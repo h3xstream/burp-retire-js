@@ -28,15 +28,15 @@ public class VulnerabilitiesRepositorySearchByUriTest {
 
         List<JsLibraryResult> res = repo.findByUri("/1.6.2/jquery.js");
         displayResults(res);
-        assertEquals(res.size(), 2, "Jquery not found");
+        assertEquals(res.size(), 2, "Jquery not found (/1.6.2/jquery.js)");
 
         res = repo.findByUri("/1.6.3/jquery.js");
         displayResults(res);
-        assertEquals(res.size(), 1, "Jquery not found");
+        assertEquals(res.size(), 1, "Jquery not found (/1.6.3/jquery.js)");
 
         res = repo.findByUri("/1.8.9/jquery.min.js");
         displayResults(res);
-        assertEquals(res.size(), 1, "Jquery not found");
+        assertEquals(res.size(), 1, "Jquery not found (/1.8.9/jquery.min.js)");
     }
 
     @Test
@@ -47,10 +47,10 @@ public class VulnerabilitiesRepositorySearchByUriTest {
 
         List<JsLibraryResult> res = repo.findByUri("/v1.3.0-1/ember.js");
         displayResults(res);
-        assertEquals(res.size(), 2, "Ember not found");
+        assertEquals(res.size(), 2, "Ember not found (/v1.3.0-1/ember.js)");
 
-        res = repo.findByUri("/1.2.1-1/ember.min.js");
+        res = repo.findByUri("/1.0.0-rc.5/ember.min.js");
         displayResults(res);
-        assertEquals(res.size(), 2, "Ember not found");
+        assertEquals(res.size(), 2, "Ember not found (/1.0.0-rc.5/ember.min.js)");
     }
 }

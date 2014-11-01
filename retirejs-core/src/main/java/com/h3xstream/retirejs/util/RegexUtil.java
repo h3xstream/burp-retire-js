@@ -51,6 +51,7 @@ public class RegexUtil {
     }
 
     public static String replaceVersion(String regex) {
+        //Note : It is important to load the repository file in UTF-8 (as it is encoded in this file)
         return regex.replace("§§version§§","[0-9][0-9.a-z_\\\\\\\\-]+");
     }
 }

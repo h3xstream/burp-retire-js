@@ -1,5 +1,6 @@
 package com.h3xstream.retirejs.repo;
 
+import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.util.RegexUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +16,7 @@ public class VulnerabilitiesRepositoryLoader {
     /**
      * This switch will be mandatory in the case.
      */
-    public static boolean syncWithOnlineRepository = true;
+    public static boolean syncWithOnlineRepository = false;
 
 
     public VulnerabilitiesRepository load() throws IOException {
@@ -48,7 +49,7 @@ public class VulnerabilitiesRepositoryLoader {
 
         VulnerabilitiesRepository repo = new VulnerabilitiesRepository();
 
-
+        int nbLoaded = 0;
         Iterator it = rootJson.keySet().iterator(); //Iterate on each library jquery, YUI, prototypejs, ...
         while (it.hasNext()) {
             String key = (String) it.next();
@@ -85,10 +86,12 @@ public class VulnerabilitiesRepositoryLoader {
                     lib.setUris(objToStringList(extractor.get("uri"),true));
             }
             //Once all the information have been collected, the library is ready to be cache.
+
             repo.addLibrary(lib);
+            nbLoaded++;
             //System.out.println(libJson.toString());
         }
-
+        Log.debug(nbLoaded+" loaded library.");
         return repo;
     }
 
@@ -124,7 +127,7 @@ public class VulnerabilitiesRepositoryLoader {
 
     static String convertStreamToString(InputStream is) {
         try {
-            Scanner s = new Scanner(is).useDelimiter("\\A");
+            Scanner s = new Scanner(is,"UTF-8").useDelimiter("\\A");
             return s.hasNext() ? s.next() : "";
         } finally {
             try {

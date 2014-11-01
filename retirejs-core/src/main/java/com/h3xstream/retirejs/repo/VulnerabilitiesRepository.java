@@ -32,8 +32,9 @@ public class VulnerabilitiesRepository {
         List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
 
         for(JsLibrary lib : jsLibrares) {
+            //Log.debug(lib.getName() +" has "+lib.getUris()+" URIs");
             if(lib.getUris()== null) {
-                //Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
+                Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
                 continue;
             }
             for(String uriRegex : lib.getUris()) {

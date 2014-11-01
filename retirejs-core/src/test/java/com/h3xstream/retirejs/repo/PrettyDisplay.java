@@ -17,6 +17,9 @@ public class PrettyDisplay {
                     res.getVuln().getAtOrAbove(),
                     Arrays.toString(res.getVuln().getInfo().toArray()));
         }
+        if(results.size() == 0) {
+            System.out.println("Nothing found.");
+        }
 
         System.out.println("==================================");
     }

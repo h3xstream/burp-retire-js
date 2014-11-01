@@ -10,7 +10,7 @@
 
     <packaging>pom</packaging>
 
-    <name>Retire.JS proxy (root pom.xml)</name>
+    <name>Retire.JS proxy scanner (root pom.xml)</name>
 
     <modules>
         <module>retirejs-core</module>
