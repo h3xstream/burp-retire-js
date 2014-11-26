@@ -1,4 +1,8 @@
-package burp;
+package burp.vuln;
+
+import burp.IHttpRequestResponse;
+import burp.IHttpService;
+import burp.IScanIssue;
 
 import java.net.URL;
 
@@ -12,7 +16,11 @@ public class VulnerableLibraryIssue implements IScanIssue {
     private String severity;
     private String confidence;
 
-    public VulnerableLibraryIssue(IHttpService httpService, URL url, IHttpRequestResponse httpMessage, String name, String detail, String severity,String confidence) {
+    private String libName;
+    private String info;
+
+    public VulnerableLibraryIssue(IHttpService httpService, URL url, IHttpRequestResponse httpMessage, String name, //
+                                  String detail, String severity,String confidence, String libName, String info) {
         this.url = url;
         this.name = name;
         this.detail = detail;
@@ -20,6 +28,9 @@ public class VulnerableLibraryIssue implements IScanIssue {
         this.httpService = httpService;
         this.httpMessage = httpMessage;
         this.confidence = confidence;
+
+        this.libName = libName;
+        this.info = info;
     }
 
     @Override
@@ -75,5 +86,13 @@ public class VulnerableLibraryIssue implements IScanIssue {
     @Override
     public IHttpService getHttpService() {
         return httpService;
+    }
+
+    public boolean equals(Object obj) {
+        if(obj instanceof VulnerableLibraryIssue) {
+            VulnerableLibraryIssue issue = (VulnerableLibraryIssue)obj;
+            return issue.libName == this.libName && issue.info == this.info;
+        }
+        return false;
     }
 }

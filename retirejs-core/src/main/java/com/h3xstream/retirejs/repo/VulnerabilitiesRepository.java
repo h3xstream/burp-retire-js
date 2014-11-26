@@ -34,7 +34,7 @@ public class VulnerabilitiesRepository {
         for(JsLibrary lib : jsLibrares) {
             //Log.debug(lib.getName() +" has "+lib.getUris()+" URIs");
             if(lib.getUris()== null) {
-                Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
+                //Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
                 continue;
             }
             for(String uriRegex : lib.getUris()) {
@@ -70,7 +70,39 @@ public class VulnerabilitiesRepository {
      * @return
      */
     public List<JsLibraryResult> findByFilename(String filename) {
-        return new ArrayList<JsLibraryResult>();
+        Log.debug("Analysing filename: "+filename);
+
+
+        List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
+        for(JsLibrary lib : jsLibrares) {
+            if(lib.getFilename()== null) {
+                continue;
+            }
+            for(String filenameRegex : lib.getFilename()) {
+
+                //Extract version
+                Pattern p = Pattern.compile(filenameRegex);
+                String version = RegexUtil.simpleMatch(p,filename);
+
+                if(version != null) { //Pattern match
+                    Log.debug("Pattern match "+filenameRegex+" !");
+
+                    //Look for vulnerability affecting this specific version..
+                    for(JsVulnerability vuln : lib.getVulnerabilities()) {
+                        if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
+
+                            if(vuln.getAtOrAbove() == null ||
+                                    CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
+
+                                Log.debug("Vulnerability found!");
+                                res.add(new JsLibraryResult(lib,vuln));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     /**

@@ -1,10 +1,10 @@
 package burp;
 
+import burp.vuln.VulnerableLibraryIssue;
+import burp.vuln.VulnerableLibraryIssueBuilder;
 import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.repo.ScannerFacade;
-import com.h3xstream.retirejs.repo.VulnerabilitiesRepository;
-import com.h3xstream.retirejs.util.HashUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,9 +12,8 @@ import java.util.List;
 
 public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEditorTabFactory {
 
-    private static boolean DEBUG = true;
 
-    public IBurpExtenderCallbacks callbacks;
+    private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
 
 
@@ -26,6 +25,7 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
         this.callbacks.setExtensionName("RetireJS");
 
         Log.setLogger(new Log.Logger(){
+            @Override
             protected void print (String message) {
                 try {
                     callbacks.getStdout().write(message.getBytes());
@@ -37,10 +37,9 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
         });
         Log.DEBUG();
 
-        //callbacks.registerScannerCheck(this);
+        callbacks.registerScannerCheck(this);
+
         callbacks.registerMessageEditorTabFactory(this);
-
-
     }
 
 
@@ -57,25 +56,25 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
         String contentType = HttpUtil.getContentType(responseInfo);
 
         try {
-            if (contentType.indexOf("javascript") != -1 || path.endsWith(".js")) {
+            //Avoid NPE
+            boolean jsContentType = contentType != null ? contentType.indexOf("javascript") != -1 : false;
+
+            if (jsContentType || path.endsWith(".js")) {
                 int bodyOffset = responseInfo.getBodyOffset();
 
-
+                //The big analysis is spawn here..
+                Log.debug("Analyzing "+path+" (body="+(respBytes.length-bodyOffset)+" bytes)");
                 issues = scanJavaScript(respBytes, bodyOffset, path, requestResponse, requestInfo);
-
-                if(DEBUG) {
-                    System.out.println("Body : " + new String(respBytes, bodyOffset, respBytes.length - bodyOffset));
-                }
-
             }
+
+
             /*
             //Do we need to scan HTML for inline JavaScript ?
             else if (contentType.indexOf("html") != -1 || path.endsWith(".html")) {
             }
              */
         } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            e.printStackTrace();
+            Log.error("Exception while scanning the script '"+path+"' (" + e.getClass().getName() + ": "+ e.getMessage()+")");
         }
         return issues;
     }
@@ -87,15 +86,25 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
 
     @Override
     public int consolidateDuplicateIssues(IScanIssue existingIssue, IScanIssue newIssue) {
+        boolean bothRetireJsIssue = existingIssue instanceof VulnerableLibraryIssue && newIssue instanceof VulnerableLibraryIssue;
+
+        if(bothRetireJsIssue) {
+            VulnerableLibraryIssue issue1 = (VulnerableLibraryIssue) existingIssue;
+            VulnerableLibraryIssue issue2 = (VulnerableLibraryIssue) newIssue;
+            return issue1.equals(issue2) ? 0 : 1;
+        }
+
         return 0;
     }
 
-    private List<IScanIssue> scanJavaScript(byte[] respBytes, int offset, String scriptName, IHttpRequestResponse resp,IRequestInfo requestInfo) throws IOException {
+    private List<IScanIssue> scanJavaScript(byte[] respBytes, int offset, String scriptName, IHttpRequestResponse resp, IRequestInfo requestInfo) throws IOException {
 
-        List<JsLibraryResult> res = ScannerFacade.getInstance().scanScript(scriptName,respBytes, offset);
+        List<JsLibraryResult> res = ScannerFacade.getInstance().scanScript(scriptName, respBytes, offset);
+
+        Log.debug(String.format("%d vulnerability(ies) for the script '%s'.",res.size(),scriptName));
 
         if(res.size() > 0) { //Transform the list of vulnerability Issue that can be display in Burp Scanner result.
-            return VulnerableLibraryIssueBuilder.convert(res, resp.getHttpService(), null, resp);
+            return VulnerableLibraryIssueBuilder.convert(res, resp.getHttpService(), resp, requestInfo);
         }
 
         return new ArrayList<IScanIssue>(); //Nothing was found
@@ -103,7 +112,7 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
 
 
     @Override
-    public IMessageEditorTab createNewInstance(IMessageEditorController iMessageEditorController, boolean b) {
-        return new JavascriptDetailTab(this.callbacks,this.helpers);
+    public IMessageEditorTab createNewInstance(IMessageEditorController controller, boolean editable) {
+        return new VulnerabilitiesDetailTab(callbacks,helpers,controller);
     }
 }
