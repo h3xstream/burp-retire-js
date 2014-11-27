@@ -11,15 +11,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class that hold the definition of all the libraries.
+ */
 public class VulnerabilitiesRepository {
-
-
 
     protected List<JsLibrary> jsLibrares = new ArrayList<JsLibrary>();
 
     public void addLibrary(JsLibrary lib) {
         jsLibrares.add(lib);
-
     }
 
     /**
@@ -31,7 +31,9 @@ public class VulnerabilitiesRepository {
         Log.debug("Analysing URI: "+uri);
         List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
 
-        for(JsLibrary lib : jsLibrares) {
+        long before = System.currentTimeMillis();
+
+        libLoop: for(JsLibrary lib : jsLibrares) {
             //Log.debug(lib.getName() +" has "+lib.getUris()+" URIs");
             if(lib.getUris()== null) {
                 //Log.warn("The library "+lib.getName()+" doesn't have uri regex ?!!");
@@ -45,22 +47,16 @@ public class VulnerabilitiesRepository {
 
                 if(version != null) { //Pattern match
                     Log.debug("Pattern match "+uriRegex+" !");
+                    Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
-                    //Look for vulnerability affecting this specific version..
-                    for(JsVulnerability vuln : lib.getVulnerabilities()) {
-                        if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
-
-                            if(vuln.getAtOrAbove() == null ||
-                                    CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
-
-                                Log.debug("Vulnerability found!");
-                                res.add(new JsLibraryResult(lib,vuln));
-                            }
-                        }
-                    }
+                    findVersionVulnerable(lib,version,res);
+                    continue libLoop;
                 }
             }
         }
+
+        long delta = System.currentTimeMillis()-before;
+        Log.debug("It took ~"+(int)(delta/1000.0)+" sec. ("+delta+" ms) to scan");
         return res;
     }
 
@@ -72,9 +68,10 @@ public class VulnerabilitiesRepository {
     public List<JsLibraryResult> findByFilename(String filename) {
         Log.debug("Analysing filename: "+filename);
 
+        long before = System.currentTimeMillis();
 
         List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
-        for(JsLibrary lib : jsLibrares) {
+        libLoop: for(JsLibrary lib : jsLibrares) {
             if(lib.getFilename()== null) {
                 continue;
             }
@@ -86,22 +83,18 @@ public class VulnerabilitiesRepository {
 
                 if(version != null) { //Pattern match
                     Log.debug("Pattern match "+filenameRegex+" !");
+                    Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
-                    //Look for vulnerability affecting this specific version..
-                    for(JsVulnerability vuln : lib.getVulnerabilities()) {
-                        if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
 
-                            if(vuln.getAtOrAbove() == null ||
-                                    CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
-
-                                Log.debug("Vulnerability found!");
-                                res.add(new JsLibraryResult(lib,vuln));
-                            }
-                        }
-                    }
+                    findVersionVulnerable(lib,version,res);
+                    continue libLoop;
                 }
             }
         }
+
+
+        long delta = System.currentTimeMillis()-before;
+        Log.debug("It took ~"+(int)(delta/1000.0)+" sec. ("+delta+" ms) to scan");
         return res;
     }
 
@@ -111,7 +104,36 @@ public class VulnerabilitiesRepository {
      * @return
      */
     public List<JsLibraryResult> findByFileContent(String scriptContent) {
-        return new ArrayList<JsLibraryResult>();
+        String scriptStart = scriptContent.substring(0,Math.min(20,scriptContent.length())).replace("\n","");
+        Log.debug("Analysing the content: "+scriptStart+"[..]");
+
+        long before = System.currentTimeMillis();
+
+        List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
+        libLoop: for(JsLibrary lib : jsLibrares) {
+            if(lib.getFileContents()== null) {
+                continue;
+            }
+            for(String contentRegex : lib.getFileContents()) {
+
+                //Extract version
+                Log.debug(contentRegex);
+                Pattern p = Pattern.compile(contentRegex);
+                String version = RegexUtil.simpleMatch(p,scriptContent);
+
+                if(version != null) { //Pattern match
+                    Log.debug("Pattern match "+contentRegex+" !");
+                    Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
+
+                    findVersionVulnerable(lib,version,res);
+                    continue libLoop;
+                }
+            }
+        }
+
+        long delta = System.currentTimeMillis()-before;
+        Log.debug("It took ~"+(int)(delta/1000.0)+" sec. ("+delta+" ms) to scan");
+        return res;
     }
 
     /**
@@ -125,5 +147,20 @@ public class VulnerabilitiesRepository {
 
     public List<JsLibraryResult> findByHash(String hash) {
         return new ArrayList<JsLibraryResult>();
+    }
+
+    private void findVersionVulnerable(JsLibrary lib,String version,List<JsLibraryResult> resultsFound) {
+        //Look for vulnerability affecting this specific version..
+        for(JsVulnerability vuln : lib.getVulnerabilities()) {
+            if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
+
+                if(vuln.getAtOrAbove() == null ||
+                        CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
+
+                    //Log.debug("Vulnerability found!");
+                    resultsFound.add(new JsLibraryResult(lib,vuln));
+                }
+            }
+        }
     }
 }

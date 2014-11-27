@@ -22,7 +22,7 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
 
         this.callbacks = callbacks;
         this.helpers = callbacks.getHelpers();
-        this.callbacks.setExtensionName("RetireJS");
+        this.callbacks.setExtensionName("Retire.js");
 
         Log.setLogger(new Log.Logger(){
             @Override

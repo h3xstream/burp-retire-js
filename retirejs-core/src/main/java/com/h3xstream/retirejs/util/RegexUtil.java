@@ -52,6 +52,13 @@ public class RegexUtil {
 
     public static String replaceVersion(String regex) {
         //Note : It is important to load the repository file in UTF-8 (as it is encoded in this file)
-        return regex.replace("§§version§§","[0-9][0-9.a-z_\\\\\\\\-]+");
+        regex = regex.replace("§§version§§","[0-9][0-9.a-z_\\\\\\\\-]+");
+        if(regex.contains("{")) {
+            regex = regex.replaceAll("\\{\\}", "\\\\{\\\\}"); //Exception {} is interpret as empty number of char as in [a-z]{1337}
+        }
+        if(regex.contains("\n")) {
+            regex = regex.replaceAll("\n","\\\\n");
+        }
+        return regex;
     }
 }

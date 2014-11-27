@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 public class RetireJsExtension extends ExtensionAdaptor {
 
-    public static final String NAME = RetireJsExtension.class.getName();
+    public static final String NAME = "Retire.js";
     private ResourceBundle messages = null;
 
     public RetireJsExtension() {

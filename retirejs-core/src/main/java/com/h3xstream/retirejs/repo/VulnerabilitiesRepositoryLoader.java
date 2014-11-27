@@ -32,9 +32,11 @@ public class VulnerabilitiesRepositoryLoader {
             try {
                 return loadFromInputStream(inputStream);
             } catch (IOException exception) { //If an problem occurs with the online file, the local repository is used.
-                //TODO:Logging
+                Log.error("Exception while loading the repository (unable to access github ?) " +
+                        exception.getClass().getName() + ": " + exception.getMessage());
             } catch (RuntimeException exception) {
-                //TODO:Logging
+                Log.error("Exception while loading the repository (unable to access github ?) "+
+                        exception.getClass().getName()+": "+exception.getMessage());
             }
         }
 
