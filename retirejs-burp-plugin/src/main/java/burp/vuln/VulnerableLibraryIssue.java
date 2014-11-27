@@ -3,6 +3,7 @@ package burp.vuln;
 import burp.IHttpRequestResponse;
 import burp.IHttpService;
 import burp.IScanIssue;
+import com.esotericsoftware.minlog.Log;
 
 import java.net.URL;
 
@@ -17,10 +18,10 @@ public class VulnerableLibraryIssue implements IScanIssue {
     private String confidence;
 
     private String libName;
-    private String info;
+    private String path;
 
     public VulnerableLibraryIssue(IHttpService httpService, URL url, IHttpRequestResponse httpMessage, String name, //
-                                  String detail, String severity,String confidence, String libName, String info) {
+                                  String detail, String severity,String confidence, String libName, String path) {
         this.url = url;
         this.name = name;
         this.detail = detail;
@@ -30,7 +31,7 @@ public class VulnerableLibraryIssue implements IScanIssue {
         this.confidence = confidence;
 
         this.libName = libName;
-        this.info = info;
+        this.path = path;
     }
 
     @Override
@@ -88,10 +89,13 @@ public class VulnerableLibraryIssue implements IScanIssue {
         return httpService;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof VulnerableLibraryIssue) {
             VulnerableLibraryIssue issue = (VulnerableLibraryIssue)obj;
-            return issue.libName == this.libName && issue.info == this.info;
+            Log.debug("libName: "+issue.libName + " == " + this.libName+" ? " + issue.libName.equals(this.libName));
+            Log.debug("path   : "+issue.path + " == " + this.path+" ? " + issue.path.equals(this.path));
+            return issue.libName.equals(this.libName) && issue.path.equals(this.path);
         }
         return false;
     }

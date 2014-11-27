@@ -91,10 +91,10 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
         if(bothRetireJsIssue) {
             VulnerableLibraryIssue issue1 = (VulnerableLibraryIssue) existingIssue;
             VulnerableLibraryIssue issue2 = (VulnerableLibraryIssue) newIssue;
-            return issue1.equals(issue2) ? 0 : 1;
+            return issue1.equals(issue2) ? -1: 0;
         }
 
-        return 0;
+        return -1; //Unknown
     }
 
     private List<IScanIssue> scanJavaScript(byte[] respBytes, int offset, String scriptName, IHttpRequestResponse resp, IRequestInfo requestInfo) throws IOException {

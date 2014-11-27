@@ -19,7 +19,7 @@ public class VulnerableLibraryIssueBuilder {
         for(JsLibraryResult lib :  librariesFound) {
 
             //Title summary
-
+            String path = HttpUtil.getPathRequested(requestInfo);
             String filename = HttpUtil.getFileRequested(requestInfo);
 
             String libraryName = lib.getLibrary().getName();
@@ -42,7 +42,7 @@ public class VulnerableLibraryIssueBuilder {
                     "Certain", //The library is old for sure .. if the app is vulnerable, not so sure..
 
                     libraryName, //The two last info are used to differentiate the vuln.
-                    lib.getVuln().getInfo().get(0)
+                    path
                     ));
         }
 
