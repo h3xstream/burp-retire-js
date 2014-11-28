@@ -1,7 +1,7 @@
 <!-- This is a mustache template -->
 <p>
 The library <b>{{detectedLibrary}}</b> version <b>{{detectedVersion}}</b> has known security issues.<br/>
-For more information, visit those websites references:
+For more information, visit those websites:
 </p>
 {{#links}}
 <li><a href="{{.}}">{{.}}</a></li>
@@ -16,5 +16,5 @@ The vulnerability is affecting all version prior <b>{{belowVersion}}</b> (betwee
 The vulnerability might be affecting a feature of the library that the website is not using. If the vulnerable feature is not used, this alert can be consider as false positive.
 </p>
 <p>
-The library name and its version was identify base on a Retire.js signature. If the library identification is not correct the prior vulnerability those not apply.
+The library name and its version are identify based on a Retire.js signature. If the library identification is not correct the prior vulnerability those not apply.
 </p>
