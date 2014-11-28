@@ -32,24 +32,27 @@ public class ScannerFacade {
         List<JsLibraryResult> res = repo.findByUri(path);
 
         if(res.size() == 0) { //2. Search by file name
-            Log.debug(String.format("[%s] No path matching ",path));
+            Log.debug(String.format("No path matching the script (%s)",path));
             String filename = getFilename(path);
-            Log.debug("filename="+filename);
             res = repo.findByFilename(filename);
 
             if(res.size() == 0) { //3. Compare the hash with known hash
-                Log.debug(String.format("[%s] No filename matching ",path));
+                Log.debug(String.format("No filename matching the script (%s)",filename));
                 String hash = HashUtil.hashSha1(respBytes, offset);
                 res = repo.findByHash(hash);
 
                 if(res.size() == 0) { //4. Look for specific string in the content
-                    Log.debug(String.format("[%s] No hash matching ",path));
+                    Log.debug(String.format("No hash matching %s (%s)", hash, path));
+
                     String contentString = new String(respBytes,offset,respBytes.length-offset);
                     res = repo.findByFileContent(contentString);
 
                     if(res.size() == 0) { //5. Evaluation the script in a sandbox
-                        Log.debug(String.format("[%s] No script snippets matching ",path));
+                        Log.debug(String.format("No content matching the script \"%s\"",path));
+
+                        /*
                         res = repo.findByFunction(contentString);
+                        */
                     }
                 }
             }

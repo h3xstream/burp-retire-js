@@ -5,27 +5,27 @@ import java.util.List;
 
 public class DescriptionModel {
 
-    private String libraryDetect;
-    private String versionDetect;
+    private String detectedLibrary;
+    private String detectedVersion;
 
     private final List<String> links = new ArrayList<String>();
     private String aboveVersion;
     private String belowVersion;
 
-    public String getLibraryDetect() {
-        return libraryDetect;
+    public String getDetectedLibrary() {
+        return detectedLibrary;
     }
 
-    public void setLibraryDetect(String libraryDetect) {
-        this.libraryDetect = libraryDetect;
+    public void setDetectedLibrary(String detectedLibrary) {
+        this.detectedLibrary = detectedLibrary;
     }
 
-    public String getVersionDetect() {
-        return versionDetect;
+    public String getDetectedVersion() {
+        return detectedVersion;
     }
 
-    public void setVersionDetect(String versionDetect) {
-        this.versionDetect = versionDetect;
+    public void setDetectedVersion(String detectedVersion) {
+        this.detectedVersion = detectedVersion;
     }
 
     public List<String> getLinks() {

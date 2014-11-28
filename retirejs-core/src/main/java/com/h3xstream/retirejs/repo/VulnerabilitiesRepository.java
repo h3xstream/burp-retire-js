@@ -5,10 +5,7 @@ import com.h3xstream.retirejs.util.CompareVersionUtil;
 import com.h3xstream.retirejs.util.RegexUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -28,7 +25,7 @@ public class VulnerabilitiesRepository {
      * @return
      */
     public List<JsLibraryResult> findByUri(String uri) {
-        Log.debug("Analysing URI: "+uri);
+        Log.debug("Analysing URI: \""+uri+"\"");
         List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
 
         long before = System.currentTimeMillis();
@@ -46,7 +43,7 @@ public class VulnerabilitiesRepository {
                 String version = RegexUtil.simpleMatch(p,uri);
 
                 if(version != null) { //Pattern match
-                    Log.debug("Pattern match "+uriRegex+" !");
+                    Log.debug("Pattern match \""+uriRegex+"\" !");
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
                     findVersionVulnerable(lib,version,res);
@@ -66,7 +63,7 @@ public class VulnerabilitiesRepository {
      * @return
      */
     public List<JsLibraryResult> findByFilename(String filename) {
-        Log.debug("Analysing filename: "+filename);
+        Log.debug("Analysing filename: \""+filename+"\"");
 
         long before = System.currentTimeMillis();
 
@@ -82,7 +79,7 @@ public class VulnerabilitiesRepository {
                 String version = RegexUtil.simpleMatch(p,filename);
 
                 if(version != null) { //Pattern match
-                    Log.debug("Pattern match "+filenameRegex+" !");
+                    Log.debug("Pattern match \""+filenameRegex+"\" !");
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
 
@@ -105,7 +102,7 @@ public class VulnerabilitiesRepository {
      */
     public List<JsLibraryResult> findByFileContent(String scriptContent) {
         String scriptStart = scriptContent.substring(0,Math.min(20,scriptContent.length())).replace("\n","");
-        Log.debug("Analysing the content: "+scriptStart+"[..]");
+        Log.debug("Analysing the content: \""+scriptStart+"[..]\"");
 
         long before = System.currentTimeMillis();
 
@@ -117,12 +114,11 @@ public class VulnerabilitiesRepository {
             for(String contentRegex : lib.getFileContents()) {
 
                 //Extract version
-                Log.debug(contentRegex);
                 Pattern p = Pattern.compile(contentRegex);
                 String version = RegexUtil.simpleMatch(p,scriptContent);
 
                 if(version != null) { //Pattern match
-                    Log.debug("Pattern match "+contentRegex+" !");
+                    Log.debug("Pattern match \""+contentRegex+"\" !");
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
                     findVersionVulnerable(lib,version,res);
@@ -132,8 +128,13 @@ public class VulnerabilitiesRepository {
         }
 
         long delta = System.currentTimeMillis()-before;
-        Log.debug("It took ~"+(int)(delta/1000.0)+" sec. ("+delta+" ms) to scan");
+        Log.debug("It took ~"+ (int)(delta/1000.0) +" sec. (" + delta + " ms) to scan");
         return res;
+    }
+
+
+    public List<JsLibraryResult> findByHash(String hash) {
+        return new ArrayList<JsLibraryResult>();
     }
 
     /**
@@ -145,9 +146,6 @@ public class VulnerabilitiesRepository {
         return new ArrayList<JsLibraryResult>();
     }
 
-    public List<JsLibraryResult> findByHash(String hash) {
-        return new ArrayList<JsLibraryResult>();
-    }
 
     private void findVersionVulnerable(JsLibrary lib,String version,List<JsLibraryResult> resultsFound) {
         //Look for vulnerability affecting this specific version..
@@ -157,8 +155,8 @@ public class VulnerabilitiesRepository {
                 if(vuln.getAtOrAbove() == null ||
                         CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
 
-                    //Log.debug("Vulnerability found!");
-                    resultsFound.add(new JsLibraryResult(lib,vuln));
+                    Log.info(String.format("Vulnerability found: %s below %s", lib.getName(), vuln.getBelow()));
+                    resultsFound.add(new JsLibraryResult(lib,vuln,version));
                 }
             }
         }

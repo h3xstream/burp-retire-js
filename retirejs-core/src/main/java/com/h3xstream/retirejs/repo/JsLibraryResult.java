@@ -4,9 +4,12 @@ public class JsLibraryResult {
     private JsLibrary library;
     private JsVulnerability vuln;
 
-    public JsLibraryResult(JsLibrary library, JsVulnerability vuln) {
+    private String detectedVersion;
+
+    public JsLibraryResult(JsLibrary library, JsVulnerability vuln, String detectedVersion) {
         this.library = library;
         this.vuln = vuln;
+        this.detectedVersion = detectedVersion;
     }
 
     public JsLibrary getLibrary() {
@@ -23,5 +26,13 @@ public class JsLibraryResult {
 
     public void setVuln(JsVulnerability vuln) {
         this.vuln = vuln;
+    }
+
+    public String getDetectedVersion() {
+        return detectedVersion;
+    }
+
+    public void setDetectedVersion(String detectedVersion) {
+        this.detectedVersion = detectedVersion;
     }
 }

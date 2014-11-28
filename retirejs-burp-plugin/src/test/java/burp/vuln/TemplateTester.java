@@ -17,8 +17,8 @@ public class TemplateTester {
         InputStream in = TemplateTester.class.getResourceAsStream(tpl);
 
         DescriptionModel model = new DescriptionModel();
-        model.setLibraryDetect("yolo.js");
-        model.setVersionDetect("1.3.3.7");
+        model.setDetectedLibrary("yolo.js");
+        model.setDetectedVersion("1.3.3.7");
         model.getLinks().add("http://blog.h3xstream.com");
         model.getLinks().add("https://csrf.me/");
 
@@ -35,7 +35,7 @@ public class TemplateTester {
 
     private String displayTemplate(InputStream tpl, Object model) throws IOException {
         MustacheFactory mf = new DefaultMustacheFactory();
-        Mustache mustache = mf.compile(new InputStreamReader(tpl),"test");
+        Mustache mustache = mf.compile(new InputStreamReader(tpl),"");
 
         ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
         mustache.execute(new PrintWriter(outBuffer),model).flush();

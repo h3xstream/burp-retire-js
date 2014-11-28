@@ -3,6 +3,7 @@ package burp;
 import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.repo.ScannerFacade;
+import com.h3xstream.retirejs.ui.HtmlReportPanel;
 import com.h3xstream.retirejs.ui.TextReportPanel;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.util.List;
 public class VulnerabilitiesDetailTab implements  IMessageEditorTab {
 
     private byte[] message;
-    private TextReportPanel infoPanel;
+    private HtmlReportPanel infoPanel;
 
     private IExtensionHelpers helpers;
     private IBurpExtenderCallbacks callbacks;
@@ -23,7 +24,7 @@ public class VulnerabilitiesDetailTab implements  IMessageEditorTab {
         this.callbacks = callbacks;
         this.controller = controller;
 
-        infoPanel = new TextReportPanel();
+        infoPanel = new HtmlReportPanel();
 
         callbacks.customizeUiComponent(infoPanel.getComponent());
     }
@@ -65,12 +66,15 @@ public class VulnerabilitiesDetailTab implements  IMessageEditorTab {
             //Scan !
             List<JsLibraryResult> res = ScannerFacade.getInstance().scanScript(scriptName, respBytes, requestInfo.getBodyOffset());
 
+            StringBuilder html = new StringBuilder();
             //Display the results
             for(JsLibraryResult lib : res) {
-                infoPanel.appendText("==========");
-                infoPanel.appendText("Lib:"+lib.getLibrary().getName());
-                infoPanel.appendText("Vulnerability:"+lib.getVuln().getInfo().get(0));
+                html.append("<hr/>");
+                html.append("Lib:<b>"+lib.getLibrary().getName()+"</b><br/>");
+                html.append("Vulnerability:<b>"+lib.getVuln().getInfo().get(0)+"</b><br/>");
             }
+
+            infoPanel.updateHtmlContent(html.toString());
 
         }
         catch (IOException io) {

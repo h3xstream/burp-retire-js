@@ -39,7 +39,8 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
 
         callbacks.registerScannerCheck(this);
 
-        callbacks.registerMessageEditorTabFactory(this);
+        //Not fully implemented (the passive scan rule is sufficient)
+        //callbacks.registerMessageEditorTabFactory(this);
     }
 
 
