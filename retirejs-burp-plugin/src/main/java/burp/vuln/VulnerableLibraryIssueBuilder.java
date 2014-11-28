@@ -18,6 +18,8 @@ public class VulnerableLibraryIssueBuilder {
         List<IScanIssue> issues = new ArrayList<IScanIssue>();
         for(JsLibraryResult lib :  librariesFound) {
 
+
+
             //Title summary
             String path = HttpUtil.getPathRequested(requestInfo);
             String filename = HttpUtil.getFileRequested(requestInfo);

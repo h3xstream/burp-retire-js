@@ -1,4 +1,4 @@
-#Retire.JS (Burp plugin) [![Build Status](https://travis-ci.org/h3xstream/burp-retire-js.png)](https://travis-ci.org/h3xstream/burp-retire-js)
+#Retire.js (Burp plugin) [![Build Status](https://travis-ci.org/h3xstream/burp-retire-js.png)](https://travis-ci.org/h3xstream/burp-retire-js)
 
 ## License
 
