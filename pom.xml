@@ -12,12 +12,32 @@
 
     <name>Retire.JS proxy scanner (root pom.xml)</name>
 
-    <modules>
-        <module>retirejs-core</module>
-        <module>retirejs-burp-plugin</module>
-        <module>retirejs-zap-plugin</module>
-        <module>burp-api</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>all-modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>retirejs-core</module>
+                <module>retirejs-burp-plugin</module>
+                <module>retirejs-zap-plugin</module>
+                <module>burp-api</module>
+            </modules>
+        </profile>
+
+        <profile>  <!-- The Burp Team is allergic to ZAP. They don't want to compile a ZAP plugin ever. ;) -->
+            <id>burp-only</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>retirejs-core</module>
+                <module>retirejs-burp-plugin</module>
+                <module>burp-api</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <properties>
         <!-- Encoding configuration -->
