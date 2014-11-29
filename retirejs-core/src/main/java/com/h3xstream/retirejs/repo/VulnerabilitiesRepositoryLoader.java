@@ -16,20 +16,20 @@ public class VulnerabilitiesRepositoryLoader {
     /**
      * This switch will be mandatory in the case.
      */
-    public static boolean syncWithOnlineRepository = false;
+    public static boolean syncWithOnlineRepository = true;
 
 
     public VulnerabilitiesRepository load() throws IOException {
         InputStream inputStream = null;
 
         if (syncWithOnlineRepository) { //Remote repository
-            //TODO:Load URL from property file
             URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
             URLConnection conn = remoteRepo.openConnection();
             conn.connect();
             inputStream = conn.getInputStream();
 
             try {
+                Log.info("Loading the latest Retire.js repository");
                 return loadFromInputStream(inputStream);
             } catch (IOException exception) { //If an problem occurs with the online file, the local repository is used.
                 Log.error("Exception while loading the repository (unable to access github ?) " +
@@ -41,6 +41,7 @@ public class VulnerabilitiesRepositoryLoader {
         }
 
         //Local version of the repository
+        Log.info("Loading the local Retire.js repository (old cache version)");
         inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
         return loadFromInputStream(inputStream);
     }
@@ -63,7 +64,7 @@ public class VulnerabilitiesRepositoryLoader {
                 JSONArray vulnerabilities = libJson.getJSONArray("vulnerabilities");
 
                 lib.setName(key);
-                //System.out.println("Building the library " + key);
+                //Log.debug("Building the library " + key);
 
                 for (int i = 0; i < vulnerabilities.length(); i++) { //Build Vulnerabilities list
                     JSONObject vuln = vulnerabilities.getJSONObject(i);

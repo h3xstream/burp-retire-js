@@ -19,7 +19,7 @@
     <build>
         <plugins>
 
-            <!-- Create the final package which include the engine (rhinauditor-core) -->
+            <!-- Create the final package which include the engine (retirejs-core) -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
@@ -34,7 +34,7 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                            <finalName>burp-retire-js</finalName>
+                            <finalName>burp-retire-js-1</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <addMavenDescriptor>false</addMavenDescriptor>

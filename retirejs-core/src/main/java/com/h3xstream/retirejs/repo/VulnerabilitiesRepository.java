@@ -134,7 +134,22 @@ public class VulnerabilitiesRepository {
 
 
     public List<JsLibraryResult> findByHash(String hash) {
-        return new ArrayList<JsLibraryResult>();
+        List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
+        for(JsLibrary lib : jsLibrares) {
+            if(lib.getHashes()== null) {
+                continue;
+            }
+            String version = lib.getHashes().get(hash);
+
+            if(version != null) { //Pattern match
+                Log.debug("Hash found \""+hash+"\" !");
+                Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
+
+                findVersionVulnerable(lib,version,res);
+                return res; //Only one hash can match the file
+            }
+        }
+        return res;
     }
 
     /**
