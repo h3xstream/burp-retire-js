@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEditorTabFactory {
+public class BurpExtender implements IBurpExtender, IScannerCheck {
 
 
     private IBurpExtenderCallbacks callbacks;
@@ -111,9 +111,4 @@ public class BurpExtender implements IBurpExtender, IScannerCheck, IMessageEdito
         return new ArrayList<IScanIssue>(); //Nothing was found
     }
 
-
-    @Override
-    public IMessageEditorTab createNewInstance(IMessageEditorController controller, boolean editable) {
-        return new VulnerabilitiesDetailTab(callbacks,helpers,controller);
-    }
 }
