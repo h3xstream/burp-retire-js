@@ -57,10 +57,6 @@
             <artifactId>retirejs-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spullara.mustache.java</groupId>
-            <artifactId>compiler</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>

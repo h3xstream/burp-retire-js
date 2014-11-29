@@ -1,4 +1,4 @@
-package burp.vuln;
+package com.h3xstream.retirejs.vuln;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,11 +6,11 @@
     <url>https://github.com/h3xstream/burp-retire-js</url>
     <changes/>
     <dependson/>
-    <extensions>
-      <extension>org.zaproxy.zap.extension.retirejs</extension>
-    </extensions>
+    <extensions/>
     <ascanrules/>
-    <pscanrules/>
+    <pscanrules>
+        <pscanrule>org.zaproxy.zap.extension.retirejs.RetireJsScannerPlugin</pscanrule>
+    </pscanrules>
     <filters/>
     <files/>
     <not-before-version>2.2.2</not-before-version>
