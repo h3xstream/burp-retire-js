@@ -15,6 +15,15 @@ public class ScannerFacade {
     }
 
     /**
+     * For testing purpose only
+     * @param repo
+     * @throws IOException
+     */
+    protected ScannerFacade(VulnerabilitiesRepository repo) throws IOException {
+        this.repo = repo;
+    }
+
+    /**
      * Obtain the singleton instance. It make sure the repo is loaded the first time.
      * @return
      * @throws IOException

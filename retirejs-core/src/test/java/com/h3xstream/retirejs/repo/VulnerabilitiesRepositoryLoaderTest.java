@@ -1,6 +1,8 @@
 package com.h3xstream.retirejs.repo;
 
 
+import com.esotericsoftware.minlog.Log;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -8,6 +10,11 @@ import java.io.IOException;
 import static org.testng.Assert.assertTrue;
 
 public class VulnerabilitiesRepositoryLoaderTest {
+
+    @BeforeClass
+    public void setUp() {
+        Log.DEBUG();
+    }
 
     @Test
     public void testRepositoryLoad() throws IOException {

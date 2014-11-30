@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import java.util.regex.Pattern;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 public class RegexUtilTest {
@@ -31,4 +32,25 @@ public class RegexUtilTest {
         }
     }
 
+    @Test
+    public void testReplaceMatchFound() {
+        //Ref: http://ajax.googleapis.com/ajax/libs/dojo/1.10.1/dojo/dojo.js
+        String dojoContent = ";dojo.version={major:1,minor:10,patch:1,flag:\"\",";
+        String dojoRegex = "/dojo.version=\\{major:([0-9]+),minor:([0-9]+),patch:([0-9]+)/$1.$2.$3/";
+
+        String extractedVersion = RegexUtil.replaceMatch(dojoRegex,dojoContent);
+        System.out.println(extractedVersion);
+
+        assertEquals(extractedVersion, "1.10.1");
+    }
+
+    @Test
+    public void testReplaceMatchNotFound() {
+        String dojoContent = ";dojo.version={major:1,m1N0r:10,patch:1,flag:\"\"";
+        String dojoRegex = "/dojo.version=\\{major:([0-9]+),minor:([0-9]+),patch:([0-9]+)/$1.$2.$3/";
+
+        String extractedVersion = RegexUtil.replaceMatch(dojoRegex,dojoContent);
+
+        assertNull(extractedVersion);
+    }
 }

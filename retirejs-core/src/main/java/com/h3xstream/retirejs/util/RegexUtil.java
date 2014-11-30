@@ -1,5 +1,7 @@
 package com.h3xstream.retirejs.util;
 
+import com.esotericsoftware.minlog.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,14 +32,16 @@ public class RegexUtil {
         if(mRP.find() || mRP.groupCount() != 3) { //Extract the replace pattern /(FIND_SOMETHING)/(REPLACE_BY_SOMETHING)/
             String patternToFind = mRP.group(1);
             String replaceBy = mRP.group(2);
+            Log.debug("Pattern to find: "+patternToFind);
+            Log.debug("Replace by: "+replaceBy);
 
             Matcher m = Pattern.compile(patternToFind).matcher(data);
             validateRegexResult(m);
             if(m.find()) { //Do the replacement
-                return m.group(1).replaceAll(patternToFind,replaceBy);
+                return m.group(0).replaceAll(patternToFind, replaceBy);
             }
             else {
-                return null;
+                return null; //Pattern was not found..
             }
         }
         else {

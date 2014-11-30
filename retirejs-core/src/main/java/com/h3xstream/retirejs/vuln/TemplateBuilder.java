@@ -13,6 +13,8 @@ public class TemplateBuilder {
     public static String buildDescription(String templateFile, String detectedLibrary,String detectedVersion,List<String> urls,String aboveVersion,String belowVersion) {
         InputStream tpl = TemplateBuilder.class.getResourceAsStream(templateFile);
 
+        if(tpl == null) return errorResult(null);
+
         try {
             //Build the model mapped to the template
             DescriptionModel model = new DescriptionModel();
@@ -31,8 +33,12 @@ public class TemplateBuilder {
             mustache.execute(new PrintWriter(outBuffer), model).flush();
             return outBuffer.toString();
         } catch (IOException e) {
-            Log.error("Unable to generate the description." + e.getMessage());
-            return "An error occurs while loading description template.";
+           return errorResult(e);
         }
+    }
+
+    private static String errorResult(Exception e) {
+        Log.error("Unable to generate the description." + (e != null? e.getMessage():""));
+        return "An error occurs while loading description template.";
     }
 }

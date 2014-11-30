@@ -1,0 +1,9 @@
+THIS IS A DUMMY TEMPLATE USED FOR TESTS ONLY
+
+The library {{detectedLibrary}} version {{detectedVersion}} has known security issues.
+
+{{#links}}
+- {{.}}
+{{/links}}
+
+The vulnerability is affecting all versions prior {{belowVersion}} (between {{aboveVersion}} and {{belowVersion}})

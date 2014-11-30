@@ -5,6 +5,11 @@ import java.util.List;
 
 public class PrettyDisplay {
 
+    /**
+     * Display the result of a scan to the command line.
+     * Used by tests including "VulnerabilitiesRepositorySearch***"
+     * @param results
+     */
     public static void displayResults(List<JsLibraryResult> results) {
         System.out.println("==================================");
         System.out.println("Results:");
