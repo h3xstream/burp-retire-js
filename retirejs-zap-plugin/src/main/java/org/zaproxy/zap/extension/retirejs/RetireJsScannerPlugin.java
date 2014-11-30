@@ -7,7 +7,6 @@ import net.htmlparser.jericho.Source;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
 import org.parosproxy.paros.network.HttpResponseHeader;
@@ -33,7 +32,7 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
                     logger.error(message,ex);
                 }
                 else {
-                    logger.debug(message);
+                    logger.info(message);
                 }
             }
         });

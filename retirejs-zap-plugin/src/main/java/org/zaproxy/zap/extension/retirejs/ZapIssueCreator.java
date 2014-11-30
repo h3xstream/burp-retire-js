@@ -12,7 +12,7 @@ import java.util.List;
 public class ZapIssueCreator {
     private static Logger logger = Logger.getLogger(ZapIssueCreator.class);
 
-    private static final String TITLE = "The JavaScript file '%s' include a vulnerable version of the library '%s'";
+    private static final String TITLE = "The JavaScript file '%s' includes a vulnerable version of the library '%s'";
     private static String TEMPLATE_DESC = "/org/zaproxy/zap/extension/retirejs/description.txt";
     private static String TEMPLATE_OTHER_INFO = "/org/zaproxy/zap/extension/retirejs/other_info.txt";
 

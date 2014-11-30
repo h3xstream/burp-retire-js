@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VulnerableLibraryIssueBuilder {
 
-    private static final String TITLE = "The JavaScript file '%s' include a vulnerable version of the library '%s'";
+    private static final String TITLE = "The JavaScript file '%s' includes a vulnerable version of the library '%s'";
     private static final String TEMPLATE_DESC = "/burp/vuln/description.html";
 
     public static List<IScanIssue> convert(List<JsLibraryResult> librariesFound, IHttpService httpService, IHttpRequestResponse reqResp, IRequestInfo requestInfo) {
