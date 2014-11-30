@@ -28,6 +28,9 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
             @Override
             protected void print (String message) {
                 try {
+                    if(message.contains("ERROR:")) { //Not the most elegant way, but should be effective.
+                        callbacks.issueAlert(message);
+                    }
                     callbacks.getStdout().write(message.getBytes());
                     callbacks.getStdout().write('\n');
                 } catch (IOException e) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class VulnerabilitiesRepositoryLoader {
@@ -23,20 +24,23 @@ public class VulnerabilitiesRepositoryLoader {
         InputStream inputStream = null;
 
         if (syncWithOnlineRepository) { //Remote repository
-            URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
-            URLConnection conn = remoteRepo.openConnection();
-            conn.connect();
-            inputStream = conn.getInputStream();
-
             try {
+                URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
+                URLConnection conn = remoteRepo.openConnection();
+                conn.connect();
+                inputStream = conn.getInputStream();
+
                 Log.info("Loading the latest Retire.js repository");
                 return loadFromInputStream(inputStream);
+            } catch (UnknownHostException exception) {
+                Log.error("Exception while loading the repository (Most likely unable to access the internet) " +
+                        exception.getClass().getName() + ": " + exception.getMessage());
             } catch (IOException exception) { //If an problem occurs with the online file, the local repository is used.
-                Log.error("Exception while loading the repository (unable to access github ?) " +
+                Log.error("Exception while loading the repository (Connection problem while loading latest repository from GitHub) " +
                         exception.getClass().getName() + ": " + exception.getMessage());
             } catch (RuntimeException exception) {
-                Log.error("Exception while loading the repository (unable to access github ?) "+
-                        exception.getClass().getName()+": "+exception.getMessage());
+                Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
+                        exception.getClass().getName() + ": " + exception.getMessage());
             }
         }
 
@@ -70,23 +74,23 @@ public class VulnerabilitiesRepositoryLoader {
                     JSONObject vuln = vulnerabilities.getJSONObject(i);
                     String atOrAbove = vuln.has("atOrAbove") ? vuln.getString("atOrAbove") : null; //Optional field
                     String below = vuln.getString("below");
-                    List<String> info = objToStringList(vuln.get("info"),false);
-                    lib.getVulnerabilities().add(new JsVulnerability(atOrAbove,below, info));
+                    List<String> info = objToStringList(vuln.get("info"), false);
+                    lib.getVulnerabilities().add(new JsVulnerability(atOrAbove, below, info));
                 }
             }
             if (libJson.has("extractors")) {
                 JSONObject extractor = libJson.getJSONObject("extractors");
                 //Imports various lists
                 if (extractor.has("func"))
-                    lib.setFunctions(objToStringList(extractor.get("func"),false));
+                    lib.setFunctions(objToStringList(extractor.get("func"), false));
                 if (extractor.has("filename"))
-                    lib.setFilename(objToStringList(extractor.get("filename"),true));
+                    lib.setFilename(objToStringList(extractor.get("filename"), true));
                 if (extractor.has("filecontent"))
-                    lib.setFileContents(objToStringList(extractor.get("filecontent"),true));
+                    lib.setFileContents(objToStringList(extractor.get("filecontent"), true));
                 if (extractor.has("hashes"))
                     lib.setHashes(objToStringMap(extractor.get("hashes")));
                 if (extractor.has("uri"))
-                    lib.setUris(objToStringList(extractor.get("uri"),true));
+                    lib.setUris(objToStringList(extractor.get("uri"), true));
             }
             //Once all the information have been collected, the library is ready to be cache.
 
@@ -94,21 +98,20 @@ public class VulnerabilitiesRepositoryLoader {
             nbLoaded++;
             //System.out.println(libJson.toString());
         }
-        Log.debug(nbLoaded+" loaded library.");
+        Log.debug(nbLoaded + " loaded library.");
         return repo;
     }
 
     ///Convertion utility methods
 
-    public List<String> objToStringList(Object obj,boolean replaceVersionWildcard) {
+    public List<String> objToStringList(Object obj, boolean replaceVersionWildcard) {
         JSONArray array = (JSONArray) obj;
         List<String> strArray = new ArrayList<String>(array.length());
         for (int i = 0; i < array.length(); i++) { //Build Vulnerabilities list
 
-            if(replaceVersionWildcard) {
+            if (replaceVersionWildcard) {
                 strArray.add(RegexUtil.replaceVersion(array.getString(i)));
-            }
-            else {
+            } else {
                 strArray.add(array.getString(i));
             }
         }
@@ -130,7 +133,7 @@ public class VulnerabilitiesRepositoryLoader {
 
     static String convertStreamToString(InputStream is) {
         try {
-            Scanner s = new Scanner(is,"UTF-8").useDelimiter("\\A");
+            Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
             return s.hasNext() ? s.next() : "";
         } finally {
             try {
