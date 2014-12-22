@@ -15,7 +15,7 @@ import java.util.*;
 public class VulnerabilitiesRepositoryLoader {
 
     /**
-     * This switch will be mandatory in the case.
+     * This switch will be need for the test case.
      */
     public static boolean syncWithOnlineRepository = true;
 
