@@ -45,3 +45,16 @@ Run the Maven plugin with the goal `scan`:
     [INFO] + http://bugs.jquery.com/ticket/11290
     [INFO] + http://research.insecurelabs.org/jquery/test/
        [...]
+
+The additional parameter `-DretireJsBreakOnFailure` can be use to break the build when at least one vulnerability is found.
+
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD FAILURE
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time: 1.450 s
+    [INFO] Finished at: 2015-02-19T13:37:00-05:00
+    [INFO] Final Memory: 11M/245M
+    [INFO] ------------------------------------------------------------------------
+    [ERROR] Failed to execute goal com.h3xstream.retirejs:retirejs-maven-plugin:1.0.0:scan (default-cli) on project
+    my-web-app: 6 known vulnerabilities were identified in the JavaScript librairies. -> [Help 1]
+    [ERROR]
