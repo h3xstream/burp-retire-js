@@ -6,11 +6,12 @@
 
     <groupId>com.h3xstream.retirejs</groupId>
     <artifactId>retirejs-root-pom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <packaging>pom</packaging>
 
     <name>Retire.JS proxy scanner (root pom.xml)</name>
+    <description>The root pom file aggregate the dependencies use by the Retire.js extensions.</description>
 
     <profiles>
         <profile>
@@ -179,4 +180,48 @@
 
         </dependencies>
     </dependencyManagement>
+    
+    <!--
+    The following meta data are present to comply with Maven Central.
+    Ref: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-6.CentralSyncRequirement
+    -->
+
+    <url>https://github.com/h3xstream/burp-retire-js</url>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/copyleft/lesser.html</url>
+            <distribution>repo</distribution>
+            <comments></comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/h3xstream/burp-retire-js.git</connection>
+        <developerConnection>scm:git:git@github.com:h3xstream/burp-retire-js.git</developerConnection>
+        <url>git@github.com:h3xstream/burp-retire-js.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>h3xstream</id>
+            <name>Philippe Arteau</name>
+            <url>https://github.com/h3xstream</url>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype staging repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
