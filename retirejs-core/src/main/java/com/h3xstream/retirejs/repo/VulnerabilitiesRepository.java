@@ -21,8 +21,8 @@ public class VulnerabilitiesRepository {
 
     /**
      * This search mode will identify the vulnerable library base on the full uri.
-     * @param uri
-     * @return
+     * @param uri URI taken from a HTTP request
+     * @return The list of vulnerable libraries found
      */
     public List<JsLibraryResult> findByUri(String uri) {
         Log.debug("Analysing URI: \""+uri+"\"");
@@ -59,8 +59,8 @@ public class VulnerabilitiesRepository {
 
     /**
      * This search mode will identify the library by there filename. (official distribution filename)
-     * @param filename
-     * @return
+     * @param filename Filename taken from an URI
+     * @return The list of vulnerable libraries found
      */
     public List<JsLibraryResult> findByFilename(String filename) {
         Log.debug("Analysing filename: \""+filename+"\"");
@@ -97,8 +97,8 @@ public class VulnerabilitiesRepository {
 
     /**
      * This search mode will look for literal string specific to the vulnerable libraries.
-     * @param scriptContent
-     * @return
+     * @param scriptContent Complete content of the script
+     * @return The list of vulnerable libraries found
      */
     public List<JsLibraryResult> findByFileContent(String scriptContent) {
         String scriptStart = scriptContent.substring(0,Math.min(20,scriptContent.length())).replace("\n","");
@@ -133,6 +133,11 @@ public class VulnerabilitiesRepository {
     }
 
 
+    /**
+     *
+     * @param hash Hash of the file to search
+     * @return The list of vulnerable libraries found
+     */
     public List<JsLibraryResult> findByHash(String hash) {
         List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
         for(JsLibrary lib : jsLibrares) {
@@ -154,8 +159,11 @@ public class VulnerabilitiesRepository {
 
     /**
      * This search mode will load the script in a sandbox and look for the presence of specific function.
-     * @param scriptContent
-     * @return
+     *
+     * <b>NOT IMPLEMENTED</b>
+     *
+     * @param scriptContent Complete content of the script
+     * @return The list of vulnerable libraries found
      */
     public List<JsLibraryResult> findByFunction(String scriptContent) {
         return new ArrayList<JsLibraryResult>();

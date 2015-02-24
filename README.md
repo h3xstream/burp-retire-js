@@ -22,21 +22,12 @@ ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-
 
 ![Retire.js ZAP plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_zap_plugin.png)
 
-### Maven
-
-/!\ Currently in early a development stage. The manual installation is required.
-
-Install the plugin:
-
-    $ git clone https://github.com/h3xstream/burp-retire-js.git
-    $ cd burp-retire-js/
-    $ mvn install
-
+### Maven [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.h3xstream.retirejs/retirejs-maven-plugin/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.h3xstream.retirejs%22%20a%3A%22retirejs-maven-plugin%22)
 
 Run the Maven plugin with the goal `scan`:
 
     $ cd myproject
-    $ mvn com.h3xstream.retirejs:retirejs:retirejs-maven-plugin:scan
+    $ mvn com.h3xstream.retirejs:retirejs-maven-plugin:scan
        [...]
     [INFO] --- retirejs-maven-plugin:1.0.0-SNAPSHOT:scan (default-cli) @ myproject ---
     [WARNING] jquery.js contains a vulnerable JavaScript library.

@@ -16,36 +16,46 @@
 
     <packaging>jar</packaging>
 
+    <profiles>
+        <profile>
+            <id>bigjar</id> <!-- Need to be deactivate during Maven release -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 
-    <build>
-        <plugins>
-            <!-- Create the final package which include the engine (retirejs-core) -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <id>jar-with-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <finalName>retirejs-alpha-1</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                            </archive>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 
-        </plugins>
-    </build>
+            <build>
+                <plugins>
+                    <!-- Create the final package which include the engine (retirejs-core) -->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptorRefs>
+                                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                                    </descriptorRefs>
+                                    <finalName>retirejs-alpha-1</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <archive>
+                                        <addMavenDescriptor>false</addMavenDescriptor>
+                                    </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+
+        </profile>
+    </profiles>
 
 
     <dependencies>

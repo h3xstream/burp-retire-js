@@ -35,7 +35,7 @@ public class RetireJsScan extends AbstractMojo {
     /**
      * This flag will make the build fail if at least one library is found vulnerable.
      * It can be useful to create automate verification using a build server such as Jenkins.
-     * @parameter expression = "${retireJsBreakOnFailure}" defaultValue = false
+     * @parameter property = "retireJsBreakOnFailure" defaultValue = false
      */
     protected boolean breakOnFailure;
 
@@ -43,7 +43,7 @@ public class RetireJsScan extends AbstractMojo {
     /**
      * The Maven Project. (Inject component)
      *
-     * @parameter expression="${project}"
+     * @parameter property="project"
      * @required
      * @readonly
      * @since 1.0-alpha-1

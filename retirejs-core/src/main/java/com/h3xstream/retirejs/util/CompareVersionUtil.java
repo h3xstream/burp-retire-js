@@ -9,14 +9,18 @@ public class CompareVersionUtil {
     /**
      * Method that calculate if [Version 1] is under [Version 2]
      * <pre>
-     * 1.0.1 - 1.0.2  : YES<br/>
-     * 1.0.1 - 2.0.1  : YES<br/>
-     * 1.3.2 - 1.2.5  : NO<br/>
-     * 1.2.3 - 1.2.3  : NO<br/>
+     * 1.0.1 - 1.0.2  : YES
+     * 1.0.1 - 2.0.1  : YES
+     * 1.3.2 - 1.2.5  : NO
+     * 1.2.3 - 1.2.3  : NO
      * </pre>
      * ===
      * Reimplementation of isAtOrAbove (but reverse)
      * https://github.com/bekk/retire.js/blob/master/node/lib/retire.js#L85
+     *
+     * @param version Version to compare
+     * @param under Version serving as reference
+     * @return True if [version] &lt; [under]
      */
     public static boolean isUnder(String version, String under) {
         String[] v1Parts = version.split("[\\.\\-]");
