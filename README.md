@@ -8,7 +8,7 @@ This software is release under [LGPL](http://www.gnu.org/licenses/lgpl.html).
 
 ## Downloads
 
-Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-1.jar) [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c)
+Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-1.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
 
 ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-1.zap)
 
