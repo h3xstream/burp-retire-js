@@ -8,21 +8,22 @@ This software is release under [LGPL](http://www.gnu.org/licenses/lgpl.html).
 
 ## Downloads
 
-Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-1.jar)
+Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-1.jar) [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c)
 
 ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-1.zap)
 
-## Screenshots
 
-### Burp:
+--------------------------
+
+## Burp plugin
 
 ![Retire.js Burp plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_burp_plugin.png)
 
-### ZAP
+## ZAP plugin
 
 ![Retire.js ZAP plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_zap_plugin.png)
 
-### Maven [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.h3xstream.retirejs/retirejs-maven-plugin/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.h3xstream.retirejs%22%20a%3A%22retirejs-maven-plugin%22)
+## Maven plugin [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.h3xstream.retirejs/retirejs-maven-plugin/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.h3xstream.retirejs%22%20a%3A%22retirejs-maven-plugin%22)
 
 Run the Maven plugin with the goal `scan`:
 
