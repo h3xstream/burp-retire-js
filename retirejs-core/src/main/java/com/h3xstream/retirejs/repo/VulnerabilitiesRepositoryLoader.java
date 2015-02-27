@@ -25,7 +25,7 @@ public class VulnerabilitiesRepositoryLoader {
 
         if (syncWithOnlineRepository) { //Remote repository
             try {
-                URL remoteRepo = new URL("https://raw.githubusercontent.com/bekk/retire.js/master/repository/jsrepository.json");
+                URL remoteRepo = new URL("https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json");
                 URLConnection conn = remoteRepo.openConnection();
                 conn.connect();
                 inputStream = conn.getInputStream();
