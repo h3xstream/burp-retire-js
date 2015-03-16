@@ -26,6 +26,7 @@ public class VulnerabilitiesRepositoryLoader {
         if (syncWithOnlineRepository) { //Remote repository
             try {
                 URL remoteRepo = new URL("https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json");
+                //URL remoteRepo = new URL("https://raw.githubusercontent.com/RetireJS/retire.js/secdec-feature/identifiers/repository/jsrepository.json");
                 URLConnection conn = remoteRepo.openConnection();
                 conn.connect();
                 inputStream = conn.getInputStream();
@@ -41,6 +42,7 @@ public class VulnerabilitiesRepositoryLoader {
             } catch (RuntimeException exception) {
                 Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
                         exception.getClass().getName() + ": " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
 
@@ -75,7 +77,11 @@ public class VulnerabilitiesRepositoryLoader {
                     String atOrAbove = vuln.has("atOrAbove") ? vuln.getString("atOrAbove") : null; //Optional field
                     String below = vuln.getString("below");
                     List<String> info = objToStringList(vuln.get("info"), false);
-                    lib.getVulnerabilities().add(new JsVulnerability(atOrAbove, below, info));
+                    Map<String,List<String>> identifiers = vuln.has("identifiers") ?
+                            objToStringMapMultiValues(vuln.get("identifiers")) :
+                            new HashMap<String,List<String>>();
+                    String severity = vuln.has("severity") ? vuln.getString("severity") : "medium";
+                    lib.getVulnerabilities().add(new JsVulnerability(atOrAbove, below, info,identifiers,severity));
                 }
             }
             if (libJson.has("extractors")) {
@@ -127,6 +133,25 @@ public class VulnerabilitiesRepositoryLoader {
             String key = (String) it.next();
 
             finalMap.put(key, jsonObj.getString(key));
+        }
+        return finalMap;
+    }
+
+    public Map<String, List<String>> objToStringMapMultiValues(Object obj) {
+        Map<String, List<String>> finalMap = new HashMap<String, List<String>>();
+
+        JSONObject jsonObj = (JSONObject) obj;
+        Iterator it = jsonObj.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+
+            JSONArray valuesArray = jsonObj.optJSONArray(key);
+            if(valuesArray == null) {
+                finalMap.put(key, Arrays.asList(jsonObj.getString(key)));
+            }
+            else {
+                finalMap.put(key, objToStringList(valuesArray,false));
+            }
         }
         return finalMap;
     }

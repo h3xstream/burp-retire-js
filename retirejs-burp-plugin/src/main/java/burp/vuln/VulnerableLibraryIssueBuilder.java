@@ -36,7 +36,7 @@ public class VulnerableLibraryIssueBuilder {
                     reqResp,
                     title, //Title of the issue
                     description, //HTML description
-                    "Medium", //Severity .. Could be high, but the risk can never be confirm automatically..
+                    mapToBurpSeverity(lib.getVuln().getSeverity()), //Severity .. Could be high, but the risk can never be confirm automatically..
                     "Certain", //The library is old for sure .. if the app is vulnerable, not so sure..
 
                     libraryName, //The two last info are used to differentiate the vuln.
@@ -46,6 +46,18 @@ public class VulnerableLibraryIssueBuilder {
 
         Log.debug(issues.size() + " issues raised for the script " + HttpUtil.getPathRequested(requestInfo));
         return issues;
+    }
+
+    private static String mapToBurpSeverity(String severity) {
+        if(severity.equals("info")) {
+            return "Information";
+        }
+        else if(severity.equals("high") || severity.equals("medium") || severity.equals("low")) {
+            //First character to upper for  "High", "Medium", "Low"
+            //See : burp.IScanIssue.getSeverity()
+            return Character.toUpperCase(severity.charAt(0))+severity.substring(1);
+        }
+        return "Medium"; //In case the value is invalid, the default will be Medium
     }
 
 

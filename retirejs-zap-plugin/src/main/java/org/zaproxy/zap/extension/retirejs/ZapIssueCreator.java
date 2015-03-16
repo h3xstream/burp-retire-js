@@ -40,7 +40,7 @@ public class ZapIssueCreator {
                 lib.getVuln().getAtOrAbove(), //
                 lib.getVuln().getBelow());
 
-        Alert alert = new Alert(pluginId, Alert.RISK_MEDIUM, Alert.SUSPICIOUS, title);
+        Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.SUSPICIOUS, title);
         alert.setDetail(description,
                 message.getRequestHeader().getURI().toString(),
                 "", //Param
@@ -51,6 +51,24 @@ public class ZapIssueCreator {
                 message
         );
         return alert;
+    }
+
+    private static int mapToZapSeverity(String severity) {
+        String severityLower = severity.toLowerCase();
+        if(severityLower.equals("high")) {
+            return Alert.RISK_HIGH;
+        }
+        else if (severityLower.equals("medium")) {
+            return Alert.RISK_MEDIUM;
+        }
+        else if (severityLower.equals("low")) {
+            return Alert.RISK_LOW;
+        }
+        else if (severityLower.equals("info")) {
+            return Alert.RISK_INFO;
+        }
+
+        return Alert.RISK_MEDIUM;
     }
 
     private static String joinStrings(List<String> info) {
