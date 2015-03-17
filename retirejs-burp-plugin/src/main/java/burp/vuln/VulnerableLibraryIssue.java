@@ -93,8 +93,8 @@ public class VulnerableLibraryIssue implements IScanIssue {
     public boolean equals(Object obj) {
         if(obj instanceof VulnerableLibraryIssue) {
             VulnerableLibraryIssue issue = (VulnerableLibraryIssue)obj;
-            Log.debug("libName: "+issue.libName + " == " + this.libName+" ? " + issue.libName.equals(this.libName));
-            Log.debug("path   : "+issue.path + " == " + this.path+" ? " + issue.path.equals(this.path));
+            //Log.debug("libName: "+issue.libName + " == " + this.libName+" ? " + issue.libName.equals(this.libName));
+            //Log.debug("path   : "+issue.path + " == " + this.path+" ? " + issue.path.equals(this.path));
             return issue.libName.equals(this.libName) && issue.path.equals(this.path);
         }
         return false;
