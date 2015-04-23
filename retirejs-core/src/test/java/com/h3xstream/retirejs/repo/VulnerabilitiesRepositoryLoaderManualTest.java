@@ -13,7 +13,7 @@ public class VulnerabilitiesRepositoryLoaderManualTest {
     public static void main(String[] args) throws IOException {
         Log.DEBUG();
 
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
         VulnerabilitiesRepositoryLoader loader = new VulnerabilitiesRepositoryLoader();
         VulnerabilitiesRepository localRepoLoad = loader.load();
 
