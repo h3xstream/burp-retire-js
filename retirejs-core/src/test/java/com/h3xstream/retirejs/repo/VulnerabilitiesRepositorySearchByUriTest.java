@@ -47,10 +47,10 @@ public class VulnerabilitiesRepositorySearchByUriTest {
 
         List<JsLibraryResult> res = repo.findByUri("/v1.3.0-1/ember.js");
         displayResults(res);
-        assertEquals(res.size(), 2, "Ember not found (/v1.3.0-1/ember.js)");
+        assertEquals(res.size(), 3, "Ember not found (/v1.3.0-1/ember.js)");
 
         res = repo.findByUri("/1.0.0-rc.5/ember.min.js");
         displayResults(res);
-        assertEquals(res.size(), 2, "Ember not found (/1.0.0-rc.5/ember.min.js)");
+        assertEquals(res.size(), 3, "Ember not found (/1.0.0-rc.5/ember.min.js)");
     }
 }
