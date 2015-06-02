@@ -1,13 +1,22 @@
 {
 	"retire-example": {
 		"vulnerabilities" : [
-			{ "below" : "0.0.2", "info" : [ "http://github.com/eoftedal/retire.js/" ] }
+			{
+				"below" : "0.0.2",
+				"severity" : "low",
+				"identifiers" : {
+					"CVE" : [ "CVE-XXXX-XXXX" ],
+					"bug" : "1234",
+					"summary" : "bug summary"
+				},
+				"info" : [ "http://github.com/eoftedal/retire.js/" ]
+			}
 		],
 		"extractors" : {
-			"func"			: [ "retire.VERSION" ],
-			"filename"		: [ "retire-example-(§§version§§)(.min)?\\.js" ],
+			"func" : [ "retire.VERSION" ],
+			"filename" : [ "retire-example-(§§version§§)(.min)?\\.js" ],
 			"filecontent"	: [ "/\\*!? Retire-example v(§§version§§)" ],
-			"hashes"		: { "07f8b94c8d601a24a1914a1a92bec0e4fafda964" : "0.0.1" }
+			"hashes" : { "07f8b94c8d601a24a1914a1a92bec0e4fafda964" : "0.0.1" }
 		}
 	},
 
@@ -15,8 +24,8 @@
 		"vulnerabilities" : [
 			{
 				"below" : "1.6.3",
-				"severity": "medium",
-				"identifiers": { "CVE": "CVE-2011-4969" },
+				"severity" : "medium",
+				"identifiers" : { "CVE": [ "CVE-2011-4969" ] },
 				"info" : [ "http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-4969" , "http://research.insecurelabs.org/jquery/test/" ]
 			},
 			{
@@ -173,10 +182,16 @@
 		"vulnerabilities" : [
 			{
 				"below" : "3.1.5",
-				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-6837"},
+				"severity" : "high",
+				"identifiers" : { "CVE" : [ "CVE-2013-6837" ] },
 				"info" : [ "http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6837&cid=3" ]
+			},
+			{
+				"below" : "3.1.6",
+				"severity" : "high",
+				"info" : [ "https://github.com/scaron/prettyphoto/issues/149", "https://blog.anantshri.info/forgotten_disclosure_dom_xss_prettyphoto" ]
 			}
+
 		],
 		"extractors" : {
 			"func"    		: [ "jQuery.prettyPhoto.version" ],
@@ -192,7 +207,7 @@
 			{
 				"below" : "2.4.0",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-2023"},
+				"identifiers": {"CVE": [ "CVE-2013-2023" ]},
 				"info" : [ "http://jplayer.org/latest/release-notes/", "http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2023" ]
 			},
 			{
@@ -240,82 +255,82 @@
 				"atOrAbove" : "3.5.0" ,
 				"below" : "3.9.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-4942"},
+				"identifiers": {"CVE": [ "CVE-2013-4942" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2013-4942/" ]
 			},
 			{
 				"atOrAbove" : "3.2.0" ,
 				"below" : "3.9.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-4941"},
+				"identifiers": {"CVE": [ "CVE-2013-4941" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2013-4941/" ]
 			},
 			{
 				"below" : "3.10.3",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-4940"},
+				"identifiers": {"CVE": [ "CVE-2013-4940" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2013-4940/" ]
 			},
 			{
 				"atOrAbove" : "3.0.0" ,
 				"below" : "3.9.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-4939"},
+				"identifiers": {"CVE": [ "CVE-2013-4939" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2013-4939/" ]
 			},
 			{
 				"atOrAbove" : "2.8.0" ,
 				"below" : "2.9.1",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE_2012-5883"},
+				"identifiers": {"CVE": [ "CVE_2012-5883" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2012-5883/" ]
 			},
 			{
 				"atOrAbove" : "2.5.0" ,
 				"below" : "2.9.1",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2012-5882"},
+				"identifiers": {"CVE": [ "CVE-2012-5882" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2012-5882/" ]
 			},
 			{
 				"atOrAbove" : "2.4.0" ,
 				"below" : "2.9.1",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2012-5881"},
+				"identifiers": {"CVE": [ "CVE-2012-5881" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2012-5881/" ]
 			},
 			{
 				"below" : "2.9.0",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2010-4710"},
+				"identifiers": {"CVE": [ "CVE-2010-4710" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2010-4710/" ]
 			},
 			{
 				"atOrAbove" : "2.8.0" ,
 				"below" : "2.8.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2010-4209"},
+				"identifiers": {"CVE": [ "CVE-2010-4209" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2010-4209/" ]
 			},
 			{
 				"atOrAbove" : "2.5.0" ,
 				"below" : "2.8.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2010-4208"},
+				"identifiers": {"CVE": [ "CVE-2010-4208" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2010-4208/" ]
 			},
 			{
 				"atOrAbove" : "2.4.0" ,
 				"below" : "2.8.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2010-4207"},
+				"identifiers": {"CVE": [ "CVE-2010-4207" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2010-4207/" ]
 			}
 		],
 		"extractors" : {
 			"func"    		: [ "YUI.Version" ],
 			"filename"		: [ "yui-(§§version§§)(.min)?\\.js"],
-			"filecontent"	: [ "YUI (§§version§§)", "/yui/license.(?:html|txt)\nversion: (§§version§§)"],
+			"filecontent"	: [ "/*\nYUI (§§version§§)", "/yui/license.(?:html|txt)\nversion: (§§version§§)"],
 			"hashes"		: {}
 		}
 	},
@@ -325,12 +340,12 @@
 				"atOrAbove" : "1.6.0",
 				"below" : "1.6.0.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2008-7220"},
+				"identifiers": {"CVE": [ "CVE-2008-7220" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2008-7220/" ] },
 			{
 				"below" : "1.5.1.2",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2008-7220"},
+				"identifiers": {"CVE": [ "CVE-2008-7220" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2008-7220/" ] }
 		],
 		"extractors" : {
@@ -345,17 +360,26 @@
 	"ember" : {
 		"vulnerabilities" : [
 			{
+				"below" : "1.5.0",
+				"severity": "medium",
+				"identifiers": {
+					"CVE": [ "CVE-2014-0046" ],
+					"summary": "ember-routing-auto-location can be forced to redirect to another domain"
+				},
+				"info" : [ "https://github.com/emberjs/ember.js/blob/v1.5.0/CHANGELOG.md" ]
+			},
+			{
 				"atOrAbove" : "1.3.0-*",
 				"below" : "1.3.2",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2014-0046"},
+				"identifiers": {"CVE": [ "CVE-2014-0046" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/1h6FRgr8lXQ" ]
 			},
 			{
 				"atOrAbove" : "1.2.0-*",
 				"below" : "1.2.2",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2014-0046"},
+				"identifiers": {"CVE": [ "CVE-2014-0046" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/1h6FRgr8lXQ" ] },
 			{
 				"atOrAbove" : "1.4.0-*",
@@ -396,42 +420,42 @@
 				"atOrAbove" : "1.0.0-rc.1",
 				"below" : "1.0.0-rc.1.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
 				"atOrAbove" : "1.0.0-rc.2",
 				"below" : "1.0.0-rc.2.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
 				"atOrAbove" : "1.0.0-rc.3",
 				"below" : "1.0.0-rc.3.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
 				"atOrAbove" : "1.0.0-rc.4",
 				"below" : "1.0.0-rc.4.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
 				"atOrAbove" : "1.0.0-rc.5",
 				"below" : "1.0.0-rc.5.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
 				"atOrAbove" : "1.0.0-rc.6",
 				"below" : "1.0.0-rc.6.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2013-4170"},
+				"identifiers": {"CVE": [ "CVE-2013-4170" ] },
 				"info" : [ "https://groups.google.com/forum/#!topic/ember-security/dokLVwwxAdM" ]
 			},
 			{
@@ -507,13 +531,13 @@
 			{
 				"below" : "1.4.2",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2010-2275"},
+				"identifiers": {"CVE": [ "CVE-2010-2275" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2010-2275/"]
 			},
 			{
 				"below" : "1.1",
 				"severity": "medium",
-				"identifiers": {"CVE": "CVE-2008-6681"},
+				"identifiers": {"CVE": [ "CVE-2008-6681" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2008-6681/"]
 			}
 
@@ -589,6 +613,14 @@
 					"summary": "execution of arbitrary javascript"
 				},
 				"info" : [ "http://avlidienbrunn.se/angular.txt", "https://github.com/angular/angular.js/commit/b39e1d47b9a1b39a9fe34c847a81f589fba522f8"]
+			},
+			{
+				"below" : "1.3.2",
+				"severity": "low",
+				"identifiers": {
+					"summary": "server-side xss can bypass CSP"
+				},
+				"info" : [ "https://github.com/angular/angular.js/blob/master/CHANGELOG.md" ]
 			}
 
 		],
@@ -665,13 +697,13 @@
 			{
 				"below" : "2.4.18",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-5212"},
+				"identifiers": {"CVE": [ "CVE-2013-5212" ] },
 				"info" : [ "http://blog.kotowicz.net/2013/09/exploiting-easyxdm-part-1-not-usual.html", "http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-5212" ]
 			},
 			{
 				"below" : "2.4.19",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2014-1403"},
+				"identifiers": {"CVE": [ "CVE-2014-1403" ] },
 				"info" : [ "http://blog.kotowicz.net/2014/01/xssing-with-shakespeare-name-calling.html", "http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1403" ]
 			}
 		],
@@ -689,13 +721,13 @@
 			{
 				"below" : "1.5.4",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2012-2401"},
+				"identifiers": {"CVE": [ "CVE-2012-2401" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2012-2401/" ]
 			},
 			{
 				"below" : "1.5.5",
 				"severity": "high",
-				"identifiers": {"CVE": "CVE-2013-0237"},
+				"identifiers": {"CVE": [ "CVE-2013-0237" ] },
 				"info" : [ "http://www.cvedetails.com/cve/CVE-2013-0237/" ]
 			}
 		],
