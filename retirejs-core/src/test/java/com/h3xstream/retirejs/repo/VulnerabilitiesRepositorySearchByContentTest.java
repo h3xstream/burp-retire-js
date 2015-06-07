@@ -19,7 +19,7 @@ public class VulnerabilitiesRepositorySearchByContentTest {
     }
 
     @Test
-    public void findJqueryByFilename() throws IOException {
+    public void findJqueryByContent() throws IOException {
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
 
         VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
@@ -35,7 +35,7 @@ public class VulnerabilitiesRepositorySearchByContentTest {
     }
 
     @Test
-    public void findByFilenameNoFalsePositive() throws IOException {
+    public void findByContentNoFalsePositive() throws IOException {
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
 
         VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
