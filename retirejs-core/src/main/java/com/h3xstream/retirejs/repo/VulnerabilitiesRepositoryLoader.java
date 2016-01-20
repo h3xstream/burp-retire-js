@@ -19,13 +19,17 @@ public class VulnerabilitiesRepositoryLoader {
      */
     public static boolean syncWithOnlineRepository = true;
 
+    /**
+     * The default repository URL
+     */
+    public static final String REPO_URL = "https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json";
 
-    public VulnerabilitiesRepository load() throws IOException {
+    public VulnerabilitiesRepository load(String url) throws IOException {
         InputStream inputStream = null;
 
         if (syncWithOnlineRepository) { //Remote repository
             try {
-                URL remoteRepo = new URL("https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json");
+                URL remoteRepo = new URL(url);
                 //URL remoteRepo = new URL("https://raw.githubusercontent.com/RetireJS/retire.js/secdec-feature/identifiers/repository/jsrepository.json");
                 URLConnection conn = remoteRepo.openConnection();
                 conn.connect();
@@ -37,7 +41,8 @@ public class VulnerabilitiesRepositoryLoader {
                 Log.error("Exception while loading the repository (Most likely unable to access the internet) " +
                         exception.getClass().getName() + ": " + exception.getMessage());
             } catch (IOException exception) { //If an problem occurs with the online file, the local repository is used.
-                Log.error("Exception while loading the repository (Connection problem while loading latest repository from GitHub) " +
+                Log.error("Exception while loading the repository (Connection problem while loading latest repository from "
+                        + url + ") " +
                         exception.getClass().getName() + ": " + exception.getMessage());
             } catch (RuntimeException exception) {
                 Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
@@ -50,6 +55,10 @@ public class VulnerabilitiesRepositoryLoader {
         Log.info("Loading the local Retire.js repository (old cache version)");
         inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
         return loadFromInputStream(inputStream);
+    }
+
+    public VulnerabilitiesRepository load() throws IOException {
+        return load(REPO_URL);
     }
 
     public VulnerabilitiesRepository loadFromInputStream(InputStream in) throws IOException {

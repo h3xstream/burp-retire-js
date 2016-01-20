@@ -19,7 +19,7 @@ public class ScannerFacade {
      * @param repo Mock repository (For testing purpose)
      * @throws IOException Unable to load the repository
      */
-    protected ScannerFacade(VulnerabilitiesRepository repo) throws IOException {
+    public ScannerFacade(VulnerabilitiesRepository repo) throws IOException {
         this.repo = repo;
     }
 

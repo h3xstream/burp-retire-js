@@ -4,6 +4,8 @@ import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.repo.JsLibrary;
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.repo.ScannerFacade;
+import com.h3xstream.retirejs.repo.VulnerabilitiesRepository;
+import com.h3xstream.retirejs.repo.VulnerabilitiesRepositoryLoader;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
@@ -38,6 +40,12 @@ public class RetireJsScan extends AbstractMojo {
      * @parameter property = "retireJsBreakOnFailure" defaultValue = false
      */
     protected boolean breakOnFailure;
+
+    /**
+     * This parameter will override the default public repo URL with the one specified.
+     * @parameter property = "retireJsRepoUrl" defaultValue = "https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json"
+     */
+    protected String repoUrl;
 
 
     /**
@@ -171,7 +179,9 @@ public class RetireJsScan extends AbstractMojo {
 
         //Scan
         byte[] fileContent = IOUtils.toByteArray(new FileInputStream(javascriptFile));
-        List<JsLibraryResult> results = ScannerFacade.getInstance().scanScript(javascriptFile.getAbsolutePath(),fileContent,0);
+        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load(repoUrl);
+        ScannerFacade scanner = new ScannerFacade(repo);
+        List<JsLibraryResult> results = scanner.scanScript(javascriptFile.getAbsolutePath(),fileContent,0);
         completeResults.addAll(results);
 
         //Display the results
