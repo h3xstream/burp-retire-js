@@ -42,7 +42,7 @@ public class VulnerabilitiesRepositoryLoader {
                         exception.getClass().getName() + ": " + exception.getMessage());
             } catch (IOException exception) { //If an problem occurs with the online file, the local repository is used.
                 Log.error("Exception while loading the repository (Connection problem while loading latest repository from "
-                        + repoUrl + ") " +
+                        + url + ") " +
                         exception.getClass().getName() + ": " + exception.getMessage());
             } catch (RuntimeException exception) {
                 Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
