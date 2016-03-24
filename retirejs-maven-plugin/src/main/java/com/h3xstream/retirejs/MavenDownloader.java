@@ -12,6 +12,13 @@ import org.apache.maven.wagon.repository.Repository;
 
 import java.io.File;
 
+/**
+ * Wagon is the API for Maven to download artifact or file from a Maven repository.
+ *
+ * When a resource is fetch "/com/test-company/artifact/1.3.3.7/pom.xml", it will prefix the repository URL.
+ *
+ * This API is use because it take care of Maven proxy configuration.
+ */
 public class MavenDownloader implements Downloader {
 
     private Log log;
@@ -31,6 +38,9 @@ public class MavenDownloader implements Downloader {
         Wagon w = wagonManager.getWagon(repo);
 
         w.connect(repo, wagonManager.getProxy(repo.getProtocol()));
+        if(url.startsWith(PREFIX_URL)) {
+            url = url.replace(PREFIX_URL,"");
+        }
         w.get(url, file);
     }
 }

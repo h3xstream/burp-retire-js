@@ -80,14 +80,17 @@ public class VulnerabilitiesRepositoryLoader {
             } catch (Exception e) {
                 Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
                         e.getClass().getName() + ": " + e.getMessage());
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
-
+        if(syncWithOnlineRepository && cachedDownloadRepository && retireJsRepoFile.exists()) {
+            Log.info("Loading the local cached Retire.js repository (old version)");
+            return loadFromInputStream(new FileInputStream(retireJsRepoFile));
+        }
 
         //Local version of the repository
-        Log.info("Loading the local Retire.js repository (old cache version)");
+        Log.info("Loading the bundle Retire.js repository (old version)");
         InputStream inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
         return loadFromInputStream(inputStream);
     }

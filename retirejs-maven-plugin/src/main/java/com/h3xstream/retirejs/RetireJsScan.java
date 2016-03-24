@@ -77,6 +77,8 @@ public class RetireJsScan extends AbstractMojo {
      */
     protected File webAppDirectory;
 
+    private VulnerabilitiesRepository repo;
+
 
     private void initMiniLog() {
         Log.setLogger(new Log.Logger() {
@@ -112,6 +114,13 @@ public class RetireJsScan extends AbstractMojo {
         if("pom".equals(packaging)) {
             getLog().debug("Skipping " + project.getGroupId() + ":" + project.getArtifactId()+" for not being a code project.");
             return;
+        }
+
+
+        try {
+            repo = new VulnerabilitiesRepositoryLoader().load(repoUrl,new MavenDownloader(getLog(),wagonManager));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         try {
@@ -190,12 +199,7 @@ public class RetireJsScan extends AbstractMojo {
 
         //Scan
         byte[] fileContent = IOUtils.toByteArray(new FileInputStream(javascriptFile));
-        VulnerabilitiesRepository repo = null;
-        try {
-            repo = new VulnerabilitiesRepositoryLoader().load(repoUrl,new MavenDownloader(getLog(),wagonManager));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
         ScannerFacade scanner = new ScannerFacade(repo);
         List<JsLibraryResult> results = scanner.scanScript(javascriptFile.getAbsolutePath(),fileContent,0);
         completeResults.addAll(results);
