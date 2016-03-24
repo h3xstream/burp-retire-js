@@ -41,7 +41,7 @@
                                     <descriptorRefs>
                                         <descriptorRef>jar-with-dependencies</descriptorRef>
                                     </descriptorRefs>
-                                    <finalName>burp-retire-js-2</finalName>
+                                    <finalName>burp-retire-js-3</finalName>
                                     <appendAssemblyId>false</appendAssemblyId>
                                     <archive>
                                         <addMavenDescriptor>false</addMavenDescriptor>

@@ -43,7 +43,7 @@
                                     <descriptorRefs>
                                         <descriptorRef>jar-with-dependencies</descriptorRef>
                                     </descriptorRefs>
-                                    <finalName>retirejs-alpha-2</finalName>
+                                    <finalName>retirejs-alpha-3</finalName>
                                     <appendAssemblyId>false</appendAssemblyId>
                                     <archive>
                                         <addMavenDescriptor>false</addMavenDescriptor>
