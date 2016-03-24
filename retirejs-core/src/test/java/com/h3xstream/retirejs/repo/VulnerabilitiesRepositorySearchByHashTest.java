@@ -28,11 +28,11 @@ public class VulnerabilitiesRepositorySearchByHashTest {
         VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         //Hash
-        byte[] scriptBytes = IOUtils.toByteArray(getClass().getResource("/js/dojo-1.4.1.js"));
-        String hash = HashUtil.hashSha1(scriptBytes, 0);
-        System.out.println("Hash computed: "+hash);
+//        byte[] scriptBytes = IOUtils.toByteArray(getClass().getResource("/js/dojo-1.4.1.js"));
+//        String hash = HashUtil.hashSha1(scriptBytes, 0);
+//        System.out.println("Hash computed: "+hash);
 
-        List<JsLibraryResult> res = repo.findByHash(hash);;
+        List<JsLibraryResult> res = repo.findByHash("73cdd262799aab850abbe694cd3bfb709ea23627");;
         displayResults(res);
         assertEquals(res.size(), 2, "Dojo 1.4.1 was expected to be found");
 

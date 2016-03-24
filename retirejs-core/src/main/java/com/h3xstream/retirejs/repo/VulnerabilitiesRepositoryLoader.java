@@ -1,12 +1,19 @@
 package com.h3xstream.retirejs.repo;
 
 import com.esotericsoftware.minlog.Log;
+import com.h3xstream.retirejs.repo.dl.DefaultDownloader;
+import com.h3xstream.retirejs.repo.dl.Downloader;
 import com.h3xstream.retirejs.util.RegexUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -18,6 +25,7 @@ public class VulnerabilitiesRepositoryLoader {
      * This switch will be need for the test case.
      */
     public static boolean syncWithOnlineRepository = true;
+    public static boolean cachedDownloadRepository = true;
 
     /**
      * The default repository URL
@@ -25,18 +33,43 @@ public class VulnerabilitiesRepositoryLoader {
     public static final String REPO_URL = "https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json";
 
     public VulnerabilitiesRepository load(String url) throws IOException {
-        InputStream inputStream = null;
+        return load(url, new DefaultDownloader());
+    }
+
+    public VulnerabilitiesRepository load(String url, Downloader dl) throws IOException {
+
+        String homeDir = System.getProperty("user.home");
+        File cacheDir = new File(homeDir, ".retirejs");
+        File retireJsRepoFile = new File(cacheDir, "jsrepository.json");
 
         if (syncWithOnlineRepository) { //Remote repository
-            try {
-                URL remoteRepo = new URL(url);
-                //URL remoteRepo = new URL("https://raw.githubusercontent.com/RetireJS/retire.js/secdec-feature/identifiers/repository/jsrepository.json");
-                URLConnection conn = remoteRepo.openConnection();
-                conn.connect();
-                inputStream = conn.getInputStream();
 
-                Log.info("Loading the latest Retire.js repository");
-                return loadFromInputStream(inputStream);
+            if(cachedDownloadRepository) {
+
+                if(!cacheDir.exists()) {
+                    Log.info("Creating Retire.js cache directory "+cacheDir.getCanonicalPath());
+                    cacheDir.mkdir();
+                }
+            }
+
+            //
+            try {
+
+                if(cacheDir.exists()) {
+                    Log.info("Caching Retire.js latest repository");
+                    dl.downloadUrlToFile(REPO_URL, retireJsRepoFile);
+                    Log.info("Loading the latest Retire.js repository");
+                    return loadFromInputStream(new FileInputStream(retireJsRepoFile));
+                }
+                else { //Permission limitation doesn't allow the creation of the cache directory ??!
+                    URL remoteRepo = new URL(url);
+                    URLConnection conn = remoteRepo.openConnection();
+                    conn.connect();
+                    InputStream inputStream = conn.getInputStream();
+
+                    Log.info("Loading the latest Retire.js repository (not cache)");
+                    return loadFromInputStream(inputStream);
+                }
             } catch (UnknownHostException exception) {
                 Log.error("Exception while loading the repository (Most likely unable to access the internet) " +
                         exception.getClass().getName() + ": " + exception.getMessage());
@@ -44,16 +77,18 @@ public class VulnerabilitiesRepositoryLoader {
                 Log.error("Exception while loading the repository (Connection problem while loading latest repository from "
                         + url + ") " +
                         exception.getClass().getName() + ": " + exception.getMessage());
-            } catch (RuntimeException exception) {
+            } catch (Exception e) {
                 Log.error("Exception while loading the repository (Unable to access GitHub ?) " +
-                        exception.getClass().getName() + ": " + exception.getMessage());
-                exception.printStackTrace();
+                        e.getClass().getName() + ": " + e.getMessage());
+                e.printStackTrace();
             }
         }
 
+
+
         //Local version of the repository
         Log.info("Loading the local Retire.js repository (old cache version)");
-        inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
+        InputStream inputStream = getClass().getResourceAsStream("/retirejs_repository.json");
         return loadFromInputStream(inputStream);
     }
 
@@ -176,4 +211,8 @@ public class VulnerabilitiesRepositoryLoader {
             }
         }
     }
+
+
+
+
 }

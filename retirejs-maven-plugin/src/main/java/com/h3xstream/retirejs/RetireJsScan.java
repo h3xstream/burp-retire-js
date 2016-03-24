@@ -7,11 +7,16 @@ import com.h3xstream.retirejs.repo.ScannerFacade;
 import com.h3xstream.retirejs.repo.VulnerabilitiesRepository;
 import com.h3xstream.retirejs.repo.VulnerabilitiesRepositoryLoader;
 import org.apache.commons.io.IOUtils;
+import org.apache.maven.artifact.manager.WagonConfigurationException;
+import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.UnsupportedProtocolException;
+import org.apache.maven.wagon.authentication.AuthenticationException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,6 +62,12 @@ public class RetireJsScan extends AbstractMojo {
      * @since 1.0-alpha-1
      */
     protected MavenProject project;
+
+    /**
+     * @component
+     * @since 1.0-alpha-3
+     */
+    protected WagonManager wagonManager;
 
     /**
      * Directory containing web resources files (by default src/main/webapp)
@@ -179,7 +190,12 @@ public class RetireJsScan extends AbstractMojo {
 
         //Scan
         byte[] fileContent = IOUtils.toByteArray(new FileInputStream(javascriptFile));
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load(repoUrl);
+        VulnerabilitiesRepository repo = null;
+        try {
+            repo = new VulnerabilitiesRepositoryLoader().load(repoUrl,new MavenDownloader(getLog(),wagonManager));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         ScannerFacade scanner = new ScannerFacade(repo);
         List<JsLibraryResult> results = scanner.scanScript(javascriptFile.getAbsolutePath(),fileContent,0);
         completeResults.addAll(results);

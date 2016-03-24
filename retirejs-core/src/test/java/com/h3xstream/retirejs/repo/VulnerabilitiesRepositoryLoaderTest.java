@@ -26,4 +26,16 @@ public class VulnerabilitiesRepositoryLoaderTest {
 
         assertTrue(localRepoLoad.jsLibrares.size() > 0, "No library was loaded.");
     }
+
+
+    @Test(enabled=true) //Not sure if this test should be kept enabled by default since it create file in user dir
+    public void testRepositoryLoadRemote() throws IOException {
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
+
+
+        VulnerabilitiesRepositoryLoader loader = new VulnerabilitiesRepositoryLoader();
+        VulnerabilitiesRepository localRepoLoad = loader.load();
+
+        assertTrue(localRepoLoad.jsLibrares.size() > 0, "No library was loaded.");
+    }
 }
