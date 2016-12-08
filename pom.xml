@@ -125,7 +125,7 @@
 
             <dependency>
                 <groupId>org.zaproxy</groupId>
-                <artifactId>zap-proxy</artifactId>
+                <artifactId>zap</artifactId>
                 <version>2.5.0</version>
                 <scope>provided</scope>
             </dependency>
