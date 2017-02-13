@@ -1,6 +1,7 @@
 Uuid: 36238b534a78494db9bf2d03f112265c
 ExtensionType: 1
 Name: Retire.js
+RepoName: retire-js
 ScreenVersion: 2.1.1
 SerialVersion: 6
 MinPlatformVersion: 0
