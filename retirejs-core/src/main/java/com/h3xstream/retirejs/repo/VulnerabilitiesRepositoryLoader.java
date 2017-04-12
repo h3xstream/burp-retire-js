@@ -57,7 +57,7 @@ public class VulnerabilitiesRepositoryLoader {
 
                 if(cacheDir.exists()) {
                     Log.info("Caching Retire.js latest repository");
-                    dl.downloadUrlToFile(REPO_URL, retireJsRepoFile);
+                    dl.downloadUrlToFile(url, retireJsRepoFile);
                     Log.info("Loading the latest Retire.js repository");
                     return loadFromInputStream(new FileInputStream(retireJsRepoFile));
                 }
