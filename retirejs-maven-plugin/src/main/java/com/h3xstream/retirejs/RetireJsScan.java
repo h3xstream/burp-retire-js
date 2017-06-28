@@ -77,7 +77,7 @@ public class RetireJsScan extends AbstractMojo {
     /**
      * Directory containing web resources files (by default src/main/webapp)
      *
-     * @parameter default-value="${basedir}/src/main/webapp"
+     * @parameter property = "retireWebAppDir" default-value="${basedir}/src/main/webapp"
      * @required
      */
     protected File webAppDirectory;
