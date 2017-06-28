@@ -116,6 +116,9 @@ public class RetireJsScan extends AbstractMojo {
             return;
         }
 
+        if (repoUrl == null || repoUrl.length() == 0) {
+            throw new RuntimeException("retireJsRepoUrl is null or empty");
+        }
 
         try {
             repo = new VulnerabilitiesRepositoryLoader().load(repoUrl,new MavenDownloader(getLog(),wagonManager));
