@@ -52,6 +52,11 @@ public class RetireJsScan extends AbstractMojo {
      */
     protected String repoUrl;
 
+    /**
+     * This parameter will override behavior to abort scan if project packaging is pom.
+     * @parameter property = "retireForceScan" defaultValue = false
+     */
+    protected boolean forceScan;
 
     /**
      * The Maven Project. (Inject component)
@@ -111,8 +116,12 @@ public class RetireJsScan extends AbstractMojo {
         File baseDir = project.getBasedir();
         String packaging = project.getPackaging();
 
-        if("pom".equals(packaging)) {
-            getLog().debug("Skipping " + project.getGroupId() + ":" + project.getArtifactId()+" for not being a code project.");
+        if(!forceScan && "pom".equals(packaging)) {
+            getLog().info("Skipping "
+                    + project.getGroupId()
+                    + ":"
+                    + project.getArtifactId()
+                    + " for not being a code project. Hint: You can force scanning with parameter retireForceScan.");
             return;
         }
 
@@ -139,7 +148,7 @@ public class RetireJsScan extends AbstractMojo {
                 if(res.getDirectory() == null) continue;
                 File sourceDir = new File(res.getDirectory());
                 if(sourceDir.exists()) {
-                    getLog().debug("Scanning directory: "+sourceDir.toString());
+                    getLog().info("Scanning directory: "+sourceDir.toString());
                     scanDirectory(sourceDir, completeResults);
                 }
             }
@@ -147,7 +156,7 @@ public class RetireJsScan extends AbstractMojo {
             //WebApp directory
 
             if(webAppDirectory != null && webAppDirectory.exists()) {
-                getLog().debug("Scanning directory: "+webAppDirectory.toString());
+                getLog().info("Scanning directory: "+webAppDirectory.toString());
                 scanDirectory(webAppDirectory, completeResults);
             }
 
