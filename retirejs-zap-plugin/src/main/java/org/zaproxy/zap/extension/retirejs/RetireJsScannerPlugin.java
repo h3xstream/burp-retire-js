@@ -20,7 +20,7 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
 
     private PassiveScanThread parent = null;
 
-    private static int PLUGIN_ID = 0x1337BEEF;
+    private static final int PLUGIN_ID = 0x1337BEEF;
 
     private Logger logger = Logger.getLogger(RetireJsScannerPlugin.class);
 
@@ -79,5 +79,10 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
     @Override
     public String getName() {
         return "Retire.js";
+    }
+
+    @Override
+    public int getPluginId() {
+        return PLUGIN_ID;
     }
 }
