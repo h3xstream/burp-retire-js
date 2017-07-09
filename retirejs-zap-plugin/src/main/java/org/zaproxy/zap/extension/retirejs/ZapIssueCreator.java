@@ -12,6 +12,9 @@ import java.util.List;
 public class ZapIssueCreator {
     private static Logger logger = Logger.getLogger(ZapIssueCreator.class);
 
+    private static final int CWE_ID = 829;
+    private static final int WASC_ID = 42;
+    
     private static final String TITLE = "The JavaScript file '%s' includes a vulnerable version of the library '%s'";
     private static String TEMPLATE_DESC = "/org/zaproxy/zap/extension/retirejs/description.txt";
     private static String TEMPLATE_OTHER_INFO = "/org/zaproxy/zap/extension/retirejs/other_info.txt";
@@ -40,7 +43,7 @@ public class ZapIssueCreator {
                 lib.getVuln().getAtOrAbove(), //
                 lib.getVuln().getBelow());
 
-        Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.SUSPICIOUS, title);
+        Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.CONFIDENCE_LOW, title);
         alert.setDetail(description,
                 message.getRequestHeader().getURI().toString(),
                 "", //Param
@@ -48,6 +51,9 @@ public class ZapIssueCreator {
                 otherInfo, //Other info
                 "Update the JavaScript library", //Solution
                 joinStrings(lib.getVuln().getInfo()), //Only one link is allow
+                "", // Evidence
+                CWE_ID,
+                WASC_ID,
                 message
         );
         return alert;
