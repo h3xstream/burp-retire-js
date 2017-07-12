@@ -1,6 +1,7 @@
 <zapaddon>
     <name>Retire.js</name>
-    <version>1</version>
+    <version>${zap.addon.version}</version>
+    <status>${zap.addon.status}</status>
     <description>Identify vulnerable JavaScript libraries</description>
     <author>Philippe Arteau (h3xStream)</author>
     <url>https://github.com/h3xstream/burp-retire-js</url>
