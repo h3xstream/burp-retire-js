@@ -3,15 +3,18 @@
 The library <b>{{detectedLibrary}}</b> version <b>{{detectedVersion}}</b> has known security issues.<br/>
 For more information, visit those websites:
 </p>
+
+<ul>
 {{#links}}
 <li><a href="{{.}}">{{.}}</a></li>
 {{/links}}
+</ul>
 
-<h3>Affected versions</h3>
+<b>Affected versions</b><br/>
 <p>
 The vulnerability is affecting all versions prior <b>{{belowVersion}}</b> (between <b>{{aboveVersion}}</b> and <b>{{belowVersion}}</b>)
 </p>
-<h3>Other considerations</h3>
+<b>Other considerations</b><br/>
 <p>
 The vulnerability might be affecting a feature of the library that the website is not using. If the vulnerable feature is not used, this alert can be consider as false positive.
 </p>
