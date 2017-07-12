@@ -21,8 +21,14 @@ That's it let me know if you have question.
 
 # Maven
 
+Normal build
 ```
-mvn clean source:jar javadoc:jar package deploy -P!bigjar
+mvn clean install
+```
+
+Release
+```
+mvn clean source:jar javadoc:jar package deploy -P!bigjar,signjars
 ```
 
  - https://oss.sonatype.org/
