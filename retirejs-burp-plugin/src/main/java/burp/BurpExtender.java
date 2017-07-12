@@ -7,6 +7,7 @@ import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.repo.ScannerFacade;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,16 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
         this.callbacks = callbacks;
         this.helpers = callbacks.getHelpers();
         this.callbacks.setExtensionName("Retire.js");
+
+        PrintWriter stdout = new PrintWriter(callbacks.getStdout(), true);
+        stdout.println("== Retire.js plugin ==");
+        stdout.println("Passive scan rules to detect vulnerable Javascript libraries");
+        stdout.println(" - Github : https://github.com/h3xstream/burp-retire-js");
+        stdout.println("");
+        stdout.println("== License ==");
+        stdout.println("Retire.js repository is release under Apache License v2.");
+        stdout.println("Retire.js Burp plugin is release under LGPL.");
+        stdout.println("");
 
         Log.setLogger(new Log.Logger(){
             @Override
