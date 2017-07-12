@@ -53,16 +53,3 @@ The additional parameter `-DretireJsBreakOnFailure` can be use to break the buil
     my-web-app: 6 known vulnerabilities were identified in the JavaScript librairies. -> [Help 1]
     [ERROR]
 
-The additional parameter `-DretireForceScan` can be used to force scanning of projects
-with packaging pom:
-
-    $ mvn com.h3xstream.retirejs:retirejs-maven-plugin:scan -DretireForceScan 
-    [INFO] Scanning for projects...
-    [INFO] 
-    [INFO] ------------------------------------------------------------------------
-    [INFO] Building Reggie Client Project 1.1.0-SNAPSHOT
-    [INFO] ------------------------------------------------------------------------
-    [INFO] 
-    [INFO] --- retirejs-maven-plugin:2.1.1-SNAPSHOT:scan (default-cli) @ client ---
-    [INFO] Scanning directory: client
-    [WARNING] jquery.min.js contains a vulnerable JavaScript library.
