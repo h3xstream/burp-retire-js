@@ -53,12 +53,6 @@ public class RetireJsScan extends AbstractMojo {
     protected String repoUrl;
 
     /**
-     * This parameter will override behavior to abort scan if project packaging is pom.
-     * @parameter property = "retireForceScan" defaultValue = false
-     */
-    protected boolean forceScan;
-
-    /**
      * The Maven Project. (Inject component)
      *
      * @parameter property="project"
@@ -110,10 +104,7 @@ public class RetireJsScan extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         initMiniLog();
 
-
         List<JsLibraryResult> completeResults = new ArrayList<JsLibraryResult>();
-
-        File baseDir = project.getBasedir();
 
         if (repoUrl == null || repoUrl.length() == 0) {
             throw new RuntimeException("retireJsRepoUrl is null or empty");
