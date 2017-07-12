@@ -52,6 +52,11 @@ public class RetireJsScan extends AbstractMojo {
      */
     protected String repoUrl;
 
+    /**
+     * This parameter will override behavior to abort scan if project packaging is pom.
+     * @parameter property = "retireForceScan" defaultValue = false
+     */
+    protected boolean forceScan;
 
     /**
      * The Maven Project. (Inject component)
@@ -72,7 +77,7 @@ public class RetireJsScan extends AbstractMojo {
     /**
      * Directory containing web resources files (by default src/main/webapp)
      *
-     * @parameter default-value="${basedir}/src/main/webapp"
+     * @parameter property = "retireWebAppDir" default-value="${basedir}/src/main/webapp"
      * @required
      */
     protected File webAppDirectory;
@@ -111,11 +116,18 @@ public class RetireJsScan extends AbstractMojo {
         File baseDir = project.getBasedir();
         String packaging = project.getPackaging();
 
-        if("pom".equals(packaging)) {
-            getLog().debug("Skipping " + project.getGroupId() + ":" + project.getArtifactId()+" for not being a code project.");
+        if(!forceScan && "pom".equals(packaging)) {
+            getLog().info("Skipping "
+                    + project.getGroupId()
+                    + ":"
+                    + project.getArtifactId()
+                    + " for not being a code project. Hint: You can force scanning with parameter retireForceScan.");
             return;
         }
 
+        if (repoUrl == null || repoUrl.length() == 0) {
+            throw new RuntimeException("retireJsRepoUrl is null or empty");
+        }
 
         try {
             repo = new VulnerabilitiesRepositoryLoader().load(repoUrl,new MavenDownloader(getLog(),wagonManager));
@@ -136,15 +148,20 @@ public class RetireJsScan extends AbstractMojo {
                 if(res.getDirectory() == null) continue;
                 File sourceDir = new File(res.getDirectory());
                 if(sourceDir.exists()) {
-                    getLog().debug("Scanning directory: "+sourceDir.toString());
+                    getLog().info("Scanning directory: "+sourceDir.toString());
                     scanDirectory(sourceDir, completeResults);
                 }
             }
 
             //WebApp directory
-
-            if(webAppDirectory != null && webAppDirectory.exists()) {
-                getLog().debug("Scanning directory: "+webAppDirectory.toString());
+            if (webAppDirectory == null) {
+                getLog().info("Not scanning webAppDirectory since it's null.");
+            } else if (!webAppDirectory.exists()) {
+                getLog().info("Not scanning webAppDirectory ("
+                        + webAppDirectory.getAbsolutePath()
+                        + ") since it doesn't exist.");
+            } else {
+                getLog().info("Scanning directory: " + webAppDirectory.toString());
                 scanDirectory(webAppDirectory, completeResults);
             }
 

@@ -35,6 +35,10 @@ public class MavenDownloader implements Downloader {
 
     @Override
     public void downloadUrlToFile(String url, File file) throws Exception {
+        if (url == null || url.length() == 0) {
+            throw new IllegalArgumentException("url is null or empty");
+        }
+
         Wagon w = wagonManager.getWagon(repo);
 
         w.connect(repo, wagonManager.getProxy(repo.getProtocol()));

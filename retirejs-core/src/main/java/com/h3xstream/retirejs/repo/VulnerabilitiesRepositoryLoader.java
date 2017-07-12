@@ -37,6 +37,9 @@ public class VulnerabilitiesRepositoryLoader {
     }
 
     public VulnerabilitiesRepository load(String url, Downloader dl) throws IOException {
+        if (url == null || url.length() == 0) {
+            throw new IllegalArgumentException("url is null or empty");
+        }
 
         String homeDir = System.getProperty("user.home");
         File cacheDir = new File(homeDir, ".retirejs");
