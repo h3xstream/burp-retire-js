@@ -46,7 +46,7 @@ public class VulnerabilitiesRepository {
                     Log.debug("Pattern match \""+uriRegex+"\" !");
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
-                    findVersionVulnerable(lib,version,res);
+                    findVersionVulnerable(lib,version,res,uriRegex,null);
                     continue libLoop;
                 }
             }
@@ -83,7 +83,7 @@ public class VulnerabilitiesRepository {
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
 
-                    findVersionVulnerable(lib,version,res);
+                    findVersionVulnerable(lib,version,res,filenameRegex,null);
                     continue libLoop;
                 }
             }
@@ -121,7 +121,7 @@ public class VulnerabilitiesRepository {
                     Log.debug("Pattern match \""+contentRegex+"\" !");
                     Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
-                    findVersionVulnerable(lib,version,res);
+                    findVersionVulnerable(lib,version,res,null,contentRegex);
                     continue libLoop;
                 }
             }
@@ -150,7 +150,7 @@ public class VulnerabilitiesRepository {
                 Log.debug("Hash found \""+hash+"\" !");
                 Log.debug("Identify the library "+lib.getName()+" (version:"+version+")");
 
-                findVersionVulnerable(lib,version,res);
+                findVersionVulnerable(lib,version,res,null,null);
                 return res; //Only one hash can match the file
             }
         }
@@ -170,7 +170,7 @@ public class VulnerabilitiesRepository {
     }
 
 
-    private void findVersionVulnerable(JsLibrary lib,String version,List<JsLibraryResult> resultsFound) {
+    private void findVersionVulnerable(JsLibrary lib,String version,List<JsLibraryResult> resultsFound,String regexRequest,String regexResponse) {
         //Look for vulnerability affecting this specific version..
         for(JsVulnerability vuln : lib.getVulnerabilities()) {
             if(CompareVersionUtil.isUnder(version,vuln.getBelow())) {
@@ -179,7 +179,7 @@ public class VulnerabilitiesRepository {
                         CompareVersionUtil.atOrAbove(version,vuln.getAtOrAbove())) {
 
                     Log.info(String.format("Vulnerability found: %s below %s", lib.getName(), vuln.getBelow()));
-                    resultsFound.add(new JsLibraryResult(lib,vuln,version));
+                    resultsFound.add(new JsLibraryResult(lib,vuln,version,regexRequest,regexResponse));
                 }
             }
         }

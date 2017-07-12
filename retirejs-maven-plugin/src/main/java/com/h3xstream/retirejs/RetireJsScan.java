@@ -114,16 +114,6 @@ public class RetireJsScan extends AbstractMojo {
         List<JsLibraryResult> completeResults = new ArrayList<JsLibraryResult>();
 
         File baseDir = project.getBasedir();
-        String packaging = project.getPackaging();
-
-        if(!forceScan && "pom".equals(packaging)) {
-            getLog().info("Skipping "
-                    + project.getGroupId()
-                    + ":"
-                    + project.getArtifactId()
-                    + " for not being a code project. Hint: You can force scanning with parameter retireForceScan.");
-            return;
-        }
 
         if (repoUrl == null || repoUrl.length() == 0) {
             throw new RuntimeException("retireJsRepoUrl is null or empty");
@@ -137,12 +127,9 @@ public class RetireJsScan extends AbstractMojo {
 
         try {
             //Scanning resources
-
             Set<Resource> allResources = new HashSet<Resource>();
             allResources.addAll(project.getResources());
             allResources.addAll(project.getTestResources());
-            //getLog().debug(allResources.size() + " resources");
-            //getLog().debug(Arrays.toString(allResources.toArray()));
 
             for(Resource res : allResources) {
                 if(res.getDirectory() == null) continue;
@@ -171,8 +158,6 @@ public class RetireJsScan extends AbstractMojo {
             allSources.addAll(project.getCompileSourceRoots());
             allSources.addAll(project.getTestCompileSourceRoots());
             allSources.addAll(project.getScriptSourceRoots());
-            //getLog().debug(allSources.size() + " sources");
-            //getLog().debug(Arrays.toString(allSources.toArray()));
 
             for(String path : allSources) {
                 File sourceDir = new File(path);

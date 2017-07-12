@@ -33,7 +33,7 @@ public class VulnerableLibraryIssueBuilder {
 
             issues.add(new VulnerableLibraryIssue(httpService,
                     requestInfo.getUrl(), //URL to map the issue to a request (source of the issue)
-                    reqResp,
+                    new MockHttpRequestResponse(reqResp,lib.getRegexRequest(),lib.getRegexResponse()),
                     title, //Title of the issue
                     description, //HTML description
                     mapToBurpSeverity(lib.getVuln().getSeverity()), //Severity .. Could be high, but the risk can never be confirm automatically..
