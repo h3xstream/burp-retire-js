@@ -18,6 +18,23 @@
 
     <packaging>jar</packaging>
 
+    <properties>
+        <zap.addon.version>4</zap.addon.version>
+        <zap.addon.status>alpha</zap.addon.status>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources-filtered</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
     <profiles>
         <profile>
             <id>bigjar</id> <!-- Need to be deactivate during Maven release -->
@@ -43,7 +60,7 @@
                                     <descriptorRefs>
                                         <descriptorRef>jar-with-dependencies</descriptorRef>
                                     </descriptorRefs>
-                                    <finalName>retirejs-alpha-3</finalName>
+                                    <finalName>retirejs-${zap.addon.status}-${zap.addon.version}</finalName>
                                     <appendAssemblyId>false</appendAssemblyId>
                                     <archive>
                                         <addMavenDescriptor>false</addMavenDescriptor>
