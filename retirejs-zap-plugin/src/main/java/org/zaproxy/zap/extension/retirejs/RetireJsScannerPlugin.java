@@ -56,6 +56,14 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
             if(h.isJavaScript() || pathQuery.endsWith(".js")) {
                     scanJavaScriptFile(pathQuery, refId, httpMessage);
             }
+            if(h.isHtml() || pathQuery.endsWith(".htm") //Some additional condition just in case the content-type is bogus
+                    || pathQuery.endsWith(".html")
+                    || pathQuery.endsWith(".aspx")
+                    || pathQuery.endsWith(".asp")
+                    || pathQuery.endsWith(".php")
+                    || pathQuery.endsWith(".jsp")) {
+                scanHtmlFile(pathQuery, refId, httpMessage);
+            }
         } catch (URIException e) {
             logger.error("Unable to scan the script '"+uri.toString()+"': "+e.getMessage(),e);
         } catch (IOException e) {
@@ -65,6 +73,13 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
 
     private void scanJavaScriptFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException {
         List<JsLibraryResult> librariesVuln = ScannerFacade.getInstance().scanScript(scriptName, httpMessage.getResponseBody().getBytes(), 0);
+        for(JsLibraryResult libVuln : librariesVuln) {
+            Alert newAlert = ZapIssueCreator.convertBugToAlert(PLUGIN_ID, libVuln, httpMessage);
+            this.parent.raiseAlert(refId, newAlert);
+        }
+    }
+    private void scanHtmlFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException {
+        List<JsLibraryResult> librariesVuln = ScannerFacade.getInstance().scanHtml(httpMessage.getResponseBody().getBytes(), 0);
         for(JsLibraryResult libVuln : librariesVuln) {
             Alert newAlert = ZapIssueCreator.convertBugToAlert(PLUGIN_ID, libVuln, httpMessage);
             this.parent.raiseAlert(refId, newAlert);
