@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VulnerableLibraryIssueBuilder {
 
-    private static final String TITLE = "The JavaScript file '%s' includes a vulnerable version of the library '%s'";
+    private static final String TITLE = "The file '%s' includes a vulnerable version of the library '%s'";
     private static final String TEMPLATE_DESC = "/burp/vuln/description.html";
 
     public static List<IScanIssue> convert(List<JsLibraryResult> librariesFound, IHttpService httpService, IHttpRequestResponse reqResp, IRequestInfo requestInfo) {
@@ -33,7 +33,8 @@ public class VulnerableLibraryIssueBuilder {
 
             issues.add(new VulnerableLibraryIssue(httpService,
                     requestInfo.getUrl(), //URL to map the issue to a request (source of the issue)
-                    new MockHttpRequestResponse(reqResp,lib.getRegexRequest(),lib.getRegexResponse()),
+                    new MockHttpRequestResponse(reqResp,lib.getRegexRequest(),
+                            lib.getRegexResponse() == null ? lib.getRegexRequest(): lib.getRegexResponse()),
                     title, //Title of the issue
                     description, //HTML description
                     mapToBurpSeverity(lib.getVuln().getSeverity()), //Severity .. Could be high, but the risk can never be confirm automatically..

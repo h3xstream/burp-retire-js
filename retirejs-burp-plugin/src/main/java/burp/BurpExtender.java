@@ -74,20 +74,23 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
             //Avoid NPE
             boolean jsContentType = contentType != null ? contentType.indexOf("javascript") != -1 : false;
 
+            int bodyOffset = responseInfo.getBodyOffset();
             if (jsContentType || path.endsWith(".js")) {
-                int bodyOffset = responseInfo.getBodyOffset();
 
                 //The big analysis is spawn here..
                 Log.debug("Analyzing "+path+" (body="+(respBytes.length-bodyOffset)+" bytes)");
                 issues = scanJavaScript(respBytes, bodyOffset, path, requestResponse, requestInfo);
             }
+            else if (contentType.indexOf("html") != -1
+                    || path.endsWith(".htm") //Some additional condition just in case the content-type is bogus
+                    || path.endsWith(".html")
+                    || path.endsWith(".aspx")
+                    || path.endsWith(".asp")
+                    || path.endsWith(".php")
+                    || path.endsWith(".jsp")) {
 
-
-            /*
-            //Do we need to scan HTML for inline JavaScript ?
-            else if (contentType.indexOf("html") != -1 || path.endsWith(".html")) {
+                issues = scanHtmlPage(respBytes, bodyOffset, path, requestResponse, requestInfo);
             }
-             */
         } catch (Exception e) {
             Log.error("Exception while scanning the script '"+path+"' (" + e.getClass().getName() + ": "+ e.getMessage()+")");
         }
@@ -117,6 +120,19 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
         List<JsLibraryResult> res = ScannerFacade.getInstance().scanScript(scriptName, respBytes, offset);
 
         Log.debug(String.format("%d vulnerability(ies) for the script '%s'.",res.size(),scriptName));
+
+        if(res.size() > 0) { //Transform the list of vulnerability Issue that can be display in Burp Scanner result.
+            return VulnerableLibraryIssueBuilder.convert(res, resp.getHttpService(), resp, requestInfo);
+        }
+
+        return new ArrayList<IScanIssue>(); //Nothing was found
+    }
+
+    private List<IScanIssue> scanHtmlPage(byte[] respBytes, int offset, String scriptName, IHttpRequestResponse resp, IRequestInfo requestInfo) throws IOException {
+
+        List<JsLibraryResult> res = ScannerFacade.getInstance().scanHtml(respBytes,offset);
+
+        Log.debug(String.format("%d vulnerability(ies) for the HTML page '%s'.",res.size(),scriptName));
 
         if(res.size() > 0) { //Transform the list of vulnerability Issue that can be display in Burp Scanner result.
             return VulnerableLibraryIssueBuilder.convert(res, resp.getHttpService(), resp, requestInfo);

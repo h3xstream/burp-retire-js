@@ -24,7 +24,6 @@
                 <module>retirejs-burp-plugin</module>
                 <module>retirejs-zap-plugin</module>
                 <module>retirejs-maven-plugin</module>
-                <module>burp-api</module>
             </modules>
         </profile>
 
@@ -36,7 +35,6 @@
             <modules>
                 <module>retirejs-core</module>
                 <module>retirejs-burp-plugin</module>
-                <module>burp-api</module>
             </modules>
         </profile>
 

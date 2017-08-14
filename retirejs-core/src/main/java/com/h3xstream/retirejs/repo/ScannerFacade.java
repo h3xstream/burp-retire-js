@@ -4,7 +4,10 @@ import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.util.HashUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScannerFacade {
     private VulnerabilitiesRepository repo;
@@ -35,6 +38,63 @@ public class ScannerFacade {
         return instance;
     }
 
+    /**
+     * Look for potential script in the HTML code &lt;script src="//cdn.server.com/jquery/1.3.3.7.js"&gt;&lt;/script&gt;
+     * @param respBytes Content of the JavaScript file (exclude HTTP headers)
+     * @param offset
+     * @return
+     */
+    public List<JsLibraryResult> scanHtml(byte[] respBytes, int offset) {
+        String contentString = new String(respBytes,offset,respBytes.length-offset);
+        List<JsLibraryResult> res = new ArrayList<JsLibraryResult>();
+        for(String url : findScriptUrl(contentString)) {
+            res.addAll(scanPath(url));
+        }
+        return res;
+    }
+
+    private List<String> findScriptUrl(String source) {
+        String[] tokens = source.split("</");
+
+        List<String> urls = new ArrayList<String>();
+
+        for(String line : tokens) {
+            if(line.contains("<script") || line.contains("<SCRIPT")) { //This precondition avoid applyig an RegEx on every line
+                Pattern p = Pattern.compile("<[sS][cC][rR][iI][pP][tT][^>]*" + //script tags
+                        "[sS][rR][cC]=" + //src attribute
+                        "[\"']([^>]*)[\"']"); //URL between quotes
+                Matcher m = p.matcher(line);
+                if(m.find()) {
+                    String urlScript = m.group(1);
+                    urls.add(urlScript);
+                }
+            }
+        }
+
+        return urls;
+    }
+
+
+    /**
+     * Analyze a script with only its path is available.
+     * For example a path in a HTML pages.
+     * @param path File path (ie: /js/jquery/jquery-1.3.3.7.js)
+     * @return
+     */
+    public List<JsLibraryResult> scanPath(String path) {
+        return scanScript(path,"".getBytes(),0);
+    }
+
+    /**
+     * Analyze script with the JavaScript file is loaded.
+     * The path has been extracted from the request URI.
+     * And the response is the content of the file.
+     *
+     * @param path File path (ie: /js/jquery/jquery-1.3.3.7.js)
+     * @param respBytes Content of the JavaScript file (exclude HTTP headers)
+     * @param offset
+     * @return
+     */
     public List<JsLibraryResult> scanScript(String path,byte[] respBytes,int offset) {
 
         //1. Search by URI (path + file name)
