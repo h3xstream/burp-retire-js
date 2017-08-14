@@ -1,0 +1,12 @@
+Uuid: 36238b534a78494db9bf2d03f112265c
+ExtensionType: 1
+Name: Retire.js
+RepoName: retire-js
+ScreenVersion: 2.1.1
+SerialVersion: 6
+MinPlatformVersion: 0
+ProOnly: True
+Author: Philippe Arteau
+ShortDescription: Integrates with the Retire.js repository to find vulnerable JavaScript libraries.
+EntryPoint: retirejs-burp-plugin/target/burp-retire-js-2.jar
+BuildCommand: mvn package -DskipTests=true -Dmaven.javadoc.skip=true -B -Pburp-only
