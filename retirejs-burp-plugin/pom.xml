@@ -58,8 +58,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.h3xstream.retirejs</groupId>
-            <artifactId>burp-api</artifactId>
+            <groupId>net.portswigger.burp.extender</groupId>
+            <artifactId>burp-extender-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

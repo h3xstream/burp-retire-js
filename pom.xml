@@ -100,13 +100,14 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- Sub modules versions -->
-
             <dependency>
-                <groupId>com.h3xstream.retirejs</groupId>
-                <artifactId>burp-api</artifactId>
-                <version>${project.version}</version>
+                <groupId>net.portswigger.burp.extender</groupId>
+                <artifactId>burp-extender-api</artifactId>
+                <version>1.7.22</version>
+                <scope>provided</scope>
             </dependency>
+
+            <!-- Sub modules versions -->
 
             <dependency>
                 <groupId>com.h3xstream.retirejs</groupId>
