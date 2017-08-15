@@ -21,6 +21,9 @@ ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-
 
 ![Retire.js Burp plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_burp_plugin.png)
 
+![Retire.js Burp plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_burp_plugin_animate.gif)
+
+
 ## ZAP plugin
 
 ![Retire.js ZAP plugin](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/screenshots/screenshot_zap_plugin.png)
