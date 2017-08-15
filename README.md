@@ -8,11 +8,11 @@ This software is release under [LGPL](http://www.gnu.org/licenses/lgpl.html).
 
 ## Downloads
 
-Last updated : March 24, 2016
+Last updated : August 15th, 2016
 
-Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-3.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
+Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-2.3.0.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
 
-ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-3.zap)
+ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-2.3.0.zap)
 
 
 --------------------------
