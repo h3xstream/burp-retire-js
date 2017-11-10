@@ -81,7 +81,7 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
                 Log.debug("Analyzing "+path+" (body="+(respBytes.length-bodyOffset)+" bytes)");
                 issues = scanJavaScript(respBytes, bodyOffset, path, requestResponse, requestInfo);
             }
-            else if (contentType.indexOf("html") != -1
+            else if ((contentType != null && contentType.indexOf("html") != -1)
                     || path.endsWith(".htm") //Some additional condition just in case the content-type is bogus
                     || path.endsWith(".html")
                     || path.endsWith(".aspx")
