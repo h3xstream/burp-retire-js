@@ -14,7 +14,7 @@ public class HttpUtil {
                 return header.substring(14);
             }
         }
-        return null;
+        return "";
     }
 
 
