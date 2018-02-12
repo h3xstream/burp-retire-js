@@ -4,7 +4,7 @@
 
 ## License
 
-This software is release under [LGPL](http://www.gnu.org/licenses/lgpl.html).
+This software is release under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 ## Downloads
 
