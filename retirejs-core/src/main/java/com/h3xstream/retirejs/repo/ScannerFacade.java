@@ -38,6 +38,13 @@ public class ScannerFacade {
         return instance;
     }
 
+    public static ScannerFacade loadInstance(VulnerabilitiesRepository repo) throws IOException {
+        if(instance == null) {
+            instance = new ScannerFacade(repo);
+        }
+        return instance;
+    }
+
     /**
      * Look for potential script in the HTML code &lt;script src="//cdn.server.com/jquery/1.3.3.7.js"&gt;&lt;/script&gt;
      * @param respBytes Content of the JavaScript file (exclude HTTP headers)

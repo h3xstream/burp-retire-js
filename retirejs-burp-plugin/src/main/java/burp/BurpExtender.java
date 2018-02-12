@@ -5,6 +5,7 @@ import burp.vuln.VulnerableLibraryIssueBuilder;
 import com.esotericsoftware.minlog.Log;
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.repo.ScannerFacade;
+import com.h3xstream.retirejs.repo.VulnerabilitiesRepositoryLoader;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,7 +50,13 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
                 }
             }
         });
-        Log.DEBUG();
+        Log.INFO();
+
+        try {
+            ScannerFacade.loadInstance(new VulnerabilitiesRepositoryLoader().load(VulnerabilitiesRepositoryLoader.REPO_URL,new BurpUpstreamDownloader(this.callbacks)));
+        } catch (IOException e) {
+            Log.error("ERROR: Problem occurs while preloading the RetireJS vulnerabilities",e);
+        }
 
         callbacks.registerScannerCheck(this);
 
