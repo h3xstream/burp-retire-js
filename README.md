@@ -58,7 +58,7 @@ The additional parameter `-DretireJsBreakOnFailure` can be use to break the buil
 
 ### Run the Maven plugin as part of your build
 Use the following configuration to run the Maven plugin as part of your build.  Only one `<repoUrl>` may be specified at a time.
-To scan / iterate earlier in your build cycle, you may wish to bind the plugin to the `validate` phase.
+To scan / iterate earlier in your build cycle, you can bind the plugin to the `validate` phase.
 ```
   <plugin>    
     <groupId>com.h3xstream.retirejs</groupId>
