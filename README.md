@@ -56,3 +56,26 @@ The additional parameter `-DretireJsBreakOnFailure` can be use to break the buil
     my-web-app: 6 known vulnerabilities were identified in the JavaScript librairies. -> [Help 1]
     [ERROR]
 
+### Run the Maven plugin as part of your build
+Use the following configuration to run the Maven plugin as part of your build.  Only one `<repoUrl>` may be specified at a time.
+To scan / iterate earlier in your build cycle, you can bind the plugin to the `validate` phase.
+```
+  <plugin>    
+    <groupId>com.h3xstream.retirejs</groupId>
+    <artifactId>retirejs-maven-plugin</artifactId>
+    <version>3.0.0</version>
+    <configuration>
+      <repoUrl>https://raw.githubusercontent.com/RetireJS/retire.js/master/repository/jsrepository.json</repoUrl>
+      <!--<repoUrl>https://raw.githubusercontent.com/RetireJS/retire.js/master/repository/npmrepository.json</repoUrl>-->
+    </configuration>
+    <executions>
+      <execution>
+        <id>scanProjectJavascript</id>
+        <goals>
+          <goal>scan</goal>
+        </goals>
+        <phase>install</phase>
+      </execution>
+    </executions>
+  </plugin>
+```      
