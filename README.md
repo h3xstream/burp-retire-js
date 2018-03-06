@@ -8,7 +8,7 @@ This software is release under [Apache 2.0](https://www.apache.org/licenses/LICE
 
 ## Downloads
 
-Last updated : August 15th, 2017
+Last updated : March 6th, 2018
 
 Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-3.0.1.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
 
@@ -57,9 +57,11 @@ The additional parameter `-DretireJsBreakOnFailure` can be use to break the buil
     [ERROR]
 
 ### Run the Maven plugin as part of your build
+
 Use the following configuration to run the Maven plugin as part of your build.  Only one `<repoUrl>` may be specified at a time.
 To scan / iterate earlier in your build cycle, you can bind the plugin to the `validate` phase.
-```
+
+```xml
   <plugin>    
     <groupId>com.h3xstream.retirejs</groupId>
     <artifactId>retirejs-maven-plugin</artifactId>
