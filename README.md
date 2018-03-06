@@ -10,9 +10,9 @@ This software is release under [Apache 2.0](https://www.apache.org/licenses/LICE
 
 Last updated : August 15th, 2017
 
-Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-2.3.0.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
+Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-3.0.1.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
 
-ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-2.3.0.zap)
+ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-3.0.1.zap)
 
 
 --------------------------
@@ -63,7 +63,7 @@ To scan / iterate earlier in your build cycle, you can bind the plugin to the `v
   <plugin>    
     <groupId>com.h3xstream.retirejs</groupId>
     <artifactId>retirejs-maven-plugin</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <configuration>
       <repoUrl>https://raw.githubusercontent.com/RetireJS/retire.js/master/repository/jsrepository.json</repoUrl>
       <!--<repoUrl>https://raw.githubusercontent.com/RetireJS/retire.js/master/repository/npmrepository.json</repoUrl>-->
