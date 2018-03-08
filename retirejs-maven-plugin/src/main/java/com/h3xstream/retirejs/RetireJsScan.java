@@ -48,7 +48,7 @@ public class RetireJsScan extends AbstractMojo {
 
     /**
      * This parameter will override the default public repo URL with the one specified.
-     * @parameter property = "retireJsRepoUrl" defaultValue = "https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json"
+     * @parameter property = "retireJsRepoUrl"
      */
     protected String repoUrl;
 
@@ -107,7 +107,8 @@ public class RetireJsScan extends AbstractMojo {
         List<JsLibraryResult> completeResults = new ArrayList<JsLibraryResult>();
 
         if (repoUrl == null || repoUrl.length() == 0) {
-            throw new RuntimeException("retireJsRepoUrl is null or empty");
+            getLog().debug("Using default URL: "+VulnerabilitiesRepositoryLoader.REPO_URL);
+            repoUrl = VulnerabilitiesRepositoryLoader.REPO_URL;
         }
 
         try {

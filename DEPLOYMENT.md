@@ -28,7 +28,8 @@ mvn clean install
 
 Release
 ```
-mvn clean source:jar javadoc:jar package deploy -P!bigjar,signjars
+mvn versions:set -DnewVersion=3.0.1
+mvn clean source:jar javadoc:jar package deploy -P!bigjar,signjars,all-modules
 ```
 
  - https://oss.sonatype.org/
