@@ -2,29 +2,18 @@ package org.zaproxy.zap.extension.retirejs;
 
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.vuln.TemplateBuilder;
-import org.apache.log4j.Logger;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ZapIssueCreator {
-    private static Logger logger = Logger.getLogger(ZapIssueCreator.class);
-
-    private static final String TITLE = "The JavaScript file '%s' includes a vulnerable version of the library '%s'";
     private static String TEMPLATE_DESC = "/org/zaproxy/zap/extension/retirejs/description.txt";
     private static String TEMPLATE_OTHER_INFO = "/org/zaproxy/zap/extension/retirejs/other_info.txt";
 
     public static Alert convertBugToAlert(int pluginId, JsLibraryResult lib, HttpMessage message) {
-        String filename = "unknown";
-        try {
-            filename = getFileRequested(message.getRequestHeader().getURI().getPathQuery());
-        }
-        catch (IOException e) {
-            logger.error(e.getMessage(),e);
-        }
-        String title = String.format(TITLE,filename,lib.getLibrary().getName());
+
+        String title = String.format("Vulnerable Version of the Library '%s' Found", lib.getLibrary().getName());
 
         String description = TemplateBuilder.buildDescription(TEMPLATE_DESC,
                 lib.getLibrary().getName(), //
@@ -40,14 +29,17 @@ public class ZapIssueCreator {
                 lib.getVuln().getAtOrAbove(), //
                 lib.getVuln().getBelow());
 
-        Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.SUSPICIOUS, title);
+        Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.CONFIDENCE_MEDIUM, title);
         alert.setDetail(description,
                 message.getRequestHeader().getURI().toString(),
                 "", //Param
                 "", //Attack
                 otherInfo, //Other info
                 "Update the JavaScript library", //Solution
-                joinStrings(lib.getVuln().getInfo()), //Only one link is allow
+                joinStrings(lib.getVuln().getInfo()), //Only one line is allow
+                "", //Evidence
+                -1, //cweId
+                -1, //wascId
                 message
         );
         return alert;
