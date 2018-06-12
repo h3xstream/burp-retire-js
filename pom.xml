@@ -68,15 +68,42 @@
         <!-- Encoding configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <dependency.locations.enabled>false</dependency.locations.enabled>
     </properties>
 
     <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
 
         <plugins>
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+
             <!-- Force the use of Java 7 compiler -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -84,8 +111,24 @@
             </plugin>
 
             <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
@@ -125,7 +168,11 @@
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
                 <artifactId>compiler</artifactId>
-                <version>0.8.17</version>
+                <!-- Upgrading to 0.9.0 causes an ArrayIndexOutOfBoundsException for some reason
+                     Failed to execute goal org.apache.maven.plugins:maven-plugin-plugin:3.2:helpmojo 
+                     (help-goal) on project retirejs-maven-plugin: Execution help-goal of goal 
+                     org.apache.maven.plugins:maven-plugin-plugin:3.2:helpmojo failed: 9578 -->
+                <version>0.8.18</version>
             </dependency>
 
             <!-- JSON parser use by the core -->
@@ -133,7 +180,7 @@
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
-                <version>20140107</version>
+                <version>20180130</version>
             </dependency>
 
             <!-- ZAP stuff -->
@@ -141,14 +188,14 @@
             <dependency>
                 <groupId>org.zaproxy</groupId>
                 <artifactId>zap</artifactId>
-                <version>2.5.0</version>
+                <version>2.7.0</version>
                 <scope>provided</scope>
             </dependency>
 
             <dependency>
                 <groupId>net.htmlparser.jericho</groupId>
                 <artifactId>jericho-html</artifactId>
-                <version>3.1</version>
+                <version>3.4</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -180,24 +227,26 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.8.8</version>
+                <version>6.14.3</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.4</version>
+                <version>2.6</version>
             </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
-                <version>1.9.0</version>
+                <version>1.10.19</version>
                 <scope>test</scope>
             </dependency>
 
             <!-- Maven API -->
+            <!-- Upgrading these to 3.5.3 is an API breaking change. 
+                 And 2.2.1 is last in that branch. -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
@@ -212,7 +261,46 @@
 
         </dependencies>
     </dependencyManagement>
-    
+
+    <reporting>
+        <outputDirectory>${basedir}/target/site</outputDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.5</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>3.2.1</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <!--
     The following meta data are present to comply with Maven Central.
     Ref: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-6.CentralSyncRequirement
