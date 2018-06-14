@@ -168,11 +168,7 @@
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
                 <artifactId>compiler</artifactId>
-                <!-- Upgrading to 0.9.0 causes an ArrayIndexOutOfBoundsException for some reason
-                     Failed to execute goal org.apache.maven.plugins:maven-plugin-plugin:3.2:helpmojo 
-                     (help-goal) on project retirejs-maven-plugin: Execution help-goal of goal 
-                     org.apache.maven.plugins:maven-plugin-plugin:3.2:helpmojo failed: 9578 -->
-                <version>0.8.18</version>
+                <version>0.9.5</version>
             </dependency>
 
             <!-- JSON parser use by the core -->
@@ -188,7 +184,9 @@
             <dependency>
                 <groupId>org.zaproxy</groupId>
                 <artifactId>zap</artifactId>
-                <version>2.7.0</version>
+				<!-- We deliberately keep this set to an old ZAP version so we know this 
+				     plugin works with older versions of ZAP too -->
+                <version>2.5.0</version>
                 <scope>provided</scope>
             </dependency>
 
