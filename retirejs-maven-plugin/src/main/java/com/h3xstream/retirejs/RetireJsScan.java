@@ -164,7 +164,7 @@ public class RetireJsScan extends AbstractMojo {
         }
 
         if(breakOnFailure && completeResults.size()>0) {
-            throw new MojoFailureException(String.format("%d known vulnerabilitie%s were identified in the JavaScript librairies.",
+            throw new MojoFailureException(String.format("%d known vulnerabilitie%s were identified in the JavaScript libraries.",
                     completeResults.size(),
                     completeResults.size()>1?"s":""));
         }
