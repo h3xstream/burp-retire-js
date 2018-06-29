@@ -32,7 +32,9 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
                     logger.error(message,ex);
                 }
                 else {
-                    logger.info(message);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(message);
+                    }
                 }
             }
         });

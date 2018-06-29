@@ -29,7 +29,6 @@
                     <!-- Create the final package which include the engine (retirejs-core) -->
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.3</version>
                         <executions>
                             <execution>
                                 <id>jar-with-dependencies</id>
