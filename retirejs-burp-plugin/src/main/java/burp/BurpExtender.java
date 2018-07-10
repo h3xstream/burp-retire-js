@@ -17,12 +17,22 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
 
     private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
+    private static BurpExtender extender;
 
+
+    public static BurpExtender getInstance() {
+        return extender;
+    }
+
+    public IExtensionHelpers getHelpers() {
+        return this.callbacks.getHelpers();
+    }
 
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
 
         this.callbacks = callbacks;
+        BurpExtender.extender = this;
         this.helpers = callbacks.getHelpers();
         this.callbacks.setExtensionName("Retire.js");
 
