@@ -11,16 +11,20 @@ import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
 import static org.testng.Assert.assertEquals;
 
 public class VulnerabilitiesRepositorySearchByFilenameTest {
+    VulnerabilitiesRepository repo;
+
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws IOException {
         Log.DEBUG();
+
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
+
+        String filePathTestRepo = getClass().getResource("/retirejs_repository_test.json").toExternalForm();
+        repo = new VulnerabilitiesRepositoryLoader().load(filePathTestRepo);
     }
 
     @Test
     public void findJqueryByFilename() throws IOException {
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         List<JsLibraryResult> res = repo.findByFilename("/jquery-1.6.2.js");
         displayResults(res);

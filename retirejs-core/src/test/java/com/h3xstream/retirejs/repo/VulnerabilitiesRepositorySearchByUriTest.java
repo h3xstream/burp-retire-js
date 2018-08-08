@@ -16,16 +16,19 @@ import static org.testng.Assert.assertTrue;
  */
 public class VulnerabilitiesRepositorySearchByUriTest {
 
+    VulnerabilitiesRepository repo;
+
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws IOException {
         Log.DEBUG();
+
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
+        String filePathTestRepo = getClass().getResource("/retirejs_repository_test.json").toExternalForm();
+        repo = new VulnerabilitiesRepositoryLoader().load(filePathTestRepo);
     }
 
     @Test
     public void findJqueryByUri() throws IOException {
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         List<JsLibraryResult> res = repo.findByUri("/1.6.2/jquery.js");
         displayResults(res);
@@ -42,9 +45,6 @@ public class VulnerabilitiesRepositorySearchByUriTest {
 
     @Test
     public void findEmberByUri() throws IOException {
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         List<JsLibraryResult> res = repo.findByUri("/v1.3.0-1/ember.js");
         displayResults(res);

@@ -14,18 +14,20 @@ import static org.testng.Assert.assertEquals;
 
 public class VulnerabilitiesRepositorySearchByHashTest {
 
+    VulnerabilitiesRepository repo;
 
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws IOException {
         Log.DEBUG();
+
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
+
+        String filePathTestRepo = getClass().getResource("/retirejs_repository_test.json").toExternalForm();
+        repo = new VulnerabilitiesRepositoryLoader().load(filePathTestRepo);
     }
 
     @Test
     public void findDojoByHash() throws IOException {
-
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
         //Hash
 //        byte[] scriptBytes = IOUtils.toByteArray(getClass().getResource("/js/dojo-1.4.1.js"));
