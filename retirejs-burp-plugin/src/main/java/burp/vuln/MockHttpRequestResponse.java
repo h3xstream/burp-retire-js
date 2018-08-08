@@ -1,5 +1,6 @@
 package burp.vuln;
 
+import burp.BurpExtender;
 import burp.IHttpRequestResponse;
 import burp.IHttpRequestResponseWithMarkers;
 import burp.IHttpService;
@@ -105,7 +106,7 @@ public class MockHttpRequestResponse implements IHttpRequestResponseWithMarkers 
     public int[] indexFromRegex(String regex, byte[] content) {
         //NOTE : Regex are not intend to work on byte array. This will work on most JavaScript files except those with Unicode
         Pattern pattern = Pattern.compile(regex);
-        Matcher m = pattern.matcher(new String(content));
+        Matcher m = pattern.matcher(BurpExtender.getInstance().getHelpers().bytesToString(content));
 
         while (m.find()) {
             return new int[] {m.start(), m.end()};
