@@ -1,6 +1,6 @@
 # Retire.js (Burp plugin) [![Build Status](https://travis-ci.org/h3xstream/burp-retire-js.svg)](https://travis-ci.org/h3xstream/burp-retire-js)
 
-[Burp](http://portswigger.net/burp/)/[ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project) extension that integrate [Retire.js](https://github.com/bekk/retire.js) repository to find vulnerable JavaScript libraries. It passively look at JavaScript files loaded and identify those vulnerable based on various signature types (URL, filename, file content or specific hash).
+[Burp](http://portswigger.net/burp/) / [ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project) extension that integrate [Retire.js](https://github.com/bekk/retire.js) repository to find vulnerable JavaScript libraries. It passively look at JavaScript files loaded and identify those vulnerable based on various signature types (URL, filename, file content or specific hash).
 
 ## License
 
