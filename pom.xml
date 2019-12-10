@@ -69,6 +69,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dependency.locations.enabled>false</dependency.locations.enabled>
+        <doclint>none</doclint>
     </properties>
 
     <build>
@@ -131,6 +132,12 @@
                 <version>3.0.1</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
+                    <javaApiLinks>
+                        <property>
+                            <name>foo</name>
+                            <value>bar</value>
+                        </property>
+                    </javaApiLinks>
                 </configuration>
             </plugin>
 

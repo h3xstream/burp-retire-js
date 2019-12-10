@@ -99,7 +99,7 @@ public class ScannerFacade {
      *
      * @param path File path (ie: /js/jquery/jquery-1.3.3.7.js)
      * @param respBytes Content of the JavaScript file (exclude HTTP headers)
-     * @param offset
+     * @param offset The body of the response starts at this offset
      * @return The list of vulnerable libraries
      */
     public List<JsLibraryResult> scanScript(String path,byte[] respBytes,int offset) {
