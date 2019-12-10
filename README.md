@@ -8,11 +8,11 @@ This software is release under [Apache 2.0](https://www.apache.org/licenses/LICE
 
 ## Downloads
 
-Last updated : March 6th, 2018
+Last updated : December 10th, 2019
 
-Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-3.0.1.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
+Burp Suite plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/burp/burp-retire-js-3.0.2.jar) (also available on the [BApp Store](https://pro.portswigger.net/bappstore/ShowBappDetails.aspx?uuid=36238b534a78494db9bf2d03f112265c))
 
-ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-3.0.1.zap)
+ZAP plugin : [Download](https://raw.githubusercontent.com/h3xstream/burp-retire-js/gh-pages/releases/zap/retirejs-alpha-3.0.2.zap)
 
 
 --------------------------
