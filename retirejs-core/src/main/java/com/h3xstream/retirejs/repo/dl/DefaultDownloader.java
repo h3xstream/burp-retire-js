@@ -18,14 +18,13 @@ public class DefaultDownloader implements Downloader {
         conn.connect();
         InputStream in = conn.getInputStream();
 
-        FileOutputStream out = new FileOutputStream(file);
-        byte data[] = new byte[1024];
-        int count;
-        while((count = in.read(data,0,1024)) != -1)
-        {
-            out.write(data, 0, count);
-            out.flush();
+        try(FileOutputStream out = new FileOutputStream(file)) {
+            byte buffer[] = new byte[1024];
+            int count;
+            while ((count = in.read(buffer, 0, 1024)) != -1) {
+                out.write(buffer, 0, count);
+                out.flush();
+            }
         }
-        out.close();
     }
 }

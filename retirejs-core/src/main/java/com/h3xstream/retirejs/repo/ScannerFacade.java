@@ -48,8 +48,8 @@ public class ScannerFacade {
     /**
      * Look for potential script in the HTML code &lt;script src="//cdn.server.com/jquery/1.3.3.7.js"&gt;&lt;/script&gt;
      * @param respBytes Content of the JavaScript file (exclude HTTP headers)
-     * @param offset
-     * @return
+     * @param offset The body of the response starts at this offset
+     * @return The list of vulnerable libraries
      */
     public List<JsLibraryResult> scanHtml(byte[] respBytes, int offset) {
         String contentString = new String(respBytes,offset,respBytes.length-offset);
@@ -86,7 +86,7 @@ public class ScannerFacade {
      * Analyze a script with only its path is available.
      * For example a path in a HTML pages.
      * @param path File path (ie: /js/jquery/jquery-1.3.3.7.js)
-     * @return
+     * @return The list of vulnerable libraries
      */
     public List<JsLibraryResult> scanPath(String path) {
         return scanScript(path,"".getBytes(),0);
@@ -99,8 +99,8 @@ public class ScannerFacade {
      *
      * @param path File path (ie: /js/jquery/jquery-1.3.3.7.js)
      * @param respBytes Content of the JavaScript file (exclude HTTP headers)
-     * @param offset
-     * @return
+     * @param offset The body of the response starts at this offset
+     * @return The list of vulnerable libraries
      */
     public List<JsLibraryResult> scanScript(String path,byte[] respBytes,int offset) {
 

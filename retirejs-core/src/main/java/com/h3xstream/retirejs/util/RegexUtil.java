@@ -16,9 +16,17 @@ public class RegexUtil {
      * @return Match of the first group extract
      */
     public static String simpleMatch(Pattern pattern, String data) {
-        Matcher m = pattern.matcher(data);
-        validateRegexResult(m);
-        return m.find()? m.group(1) : null;
+        try {
+            Matcher m = pattern.matcher(data);
+            validateRegexResult(m);
+            return m.find() ? m.group(1) : null;
+        }
+        catch (IllegalArgumentException iae) {
+            throw iae;
+        }
+        catch (Throwable t) { //Some regex built are likely to create StackOverflow.. See issue #54
+            return null;
+        }
     }
 
     /**

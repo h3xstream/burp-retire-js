@@ -127,16 +127,16 @@ public class RetireJsScan extends AbstractMojo {
                 if(res.getDirectory() == null) continue;
                 File sourceDir = new File(res.getDirectory());
                 if(sourceDir.exists()) {
-                    getLog().info("Scanning directory: "+sourceDir.toString());
+                    getLog().debug("Scanning directory: "+sourceDir.toString());
                     scanDirectory(sourceDir, completeResults);
                 }
             }
 
             //WebApp directory
             if (webAppDirectory == null) {
-                getLog().info("Not scanning webAppDirectory since it's null.");
+                getLog().debug("Not scanning webAppDirectory since it's null.");
             } else if (!webAppDirectory.exists()) {
-                getLog().info("Not scanning webAppDirectory ("
+                getLog().debug("Not scanning webAppDirectory ("
                         + webAppDirectory.getAbsolutePath()
                         + ") since it doesn't exist.");
             } else {

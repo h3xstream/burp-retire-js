@@ -12,17 +12,19 @@ import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
 import static org.testng.Assert.assertEquals;
 
 public class VulnerabilitiesRepositorySearchByContentTest {
+    VulnerabilitiesRepository repo;
 
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws IOException {
         Log.DEBUG();
+
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
+        String filePathTestRepo = getClass().getResource("/retirejs_repository_test.json").toExternalForm();
+        repo = new VulnerabilitiesRepositoryLoader().load(filePathTestRepo);
     }
 
     @Test
     public void findJqueryByContent() throws IOException {
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
 
 
         String scriptJquery = IOUtils.toString(getClass().getResource("/js/jquery-1.6.2.js"));
@@ -36,10 +38,6 @@ public class VulnerabilitiesRepositorySearchByContentTest {
 
     @Test
     public void findByContentNoFalsePositive() throws IOException {
-        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
-
-        VulnerabilitiesRepository repo = new VulnerabilitiesRepositoryLoader().load();
-
 
         String scriptAngularJs = IOUtils.toString(getClass().getResource("/js/angular.safe.js"));
         List<JsLibraryResult> res = repo.findByFileContent(scriptAngularJs);

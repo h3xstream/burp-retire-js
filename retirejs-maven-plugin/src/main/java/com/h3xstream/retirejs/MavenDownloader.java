@@ -1,6 +1,7 @@
 package com.h3xstream.retirejs;
 
 import com.h3xstream.retirejs.repo.dl.Downloader;
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.logging.Log;
@@ -10,7 +11,9 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.repository.Repository;
 
-import java.io.File;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Wagon is the API for Maven to download artifact or file from a Maven repository.
@@ -23,14 +26,11 @@ public class MavenDownloader implements Downloader {
 
     private Log log;
     private WagonManager wagonManager;
-    protected Repository repo;
 
-    private static final String PREFIX_URL = "https://raw.githubusercontent.com/";
 
     public MavenDownloader(final Log log, final WagonManager wagonManager) throws WagonConfigurationException, UnsupportedProtocolException, ConnectionException, AuthenticationException {
         this.log = log;
         this.wagonManager = wagonManager;
-        repo = new Repository(PREFIX_URL, PREFIX_URL);
     }
 
     @Override
@@ -39,12 +39,31 @@ public class MavenDownloader implements Downloader {
             throw new IllegalArgumentException("url is null or empty");
         }
 
-        Wagon w = wagonManager.getWagon(repo);
+        URL u = new URL(url);
 
-        w.connect(repo, wagonManager.getProxy(repo.getProtocol()));
-        if(url.startsWith(PREFIX_URL)) {
-            url = url.replace(PREFIX_URL,"");
+        if(u.getProtocol().equals("http") || u.getProtocol().equals("https")) {
+            log.debug("Downloading from the web : "+url);
+            String prefixUrl = u.getProtocol()+"://"+u.getHost()+"/";
+            Repository repo = new Repository(prefixUrl, prefixUrl);
+
+            Wagon w = wagonManager.getWagon(repo);
+
+            w.connect(repo, wagonManager.getProxy(repo.getProtocol()));
+            if(url.startsWith(prefixUrl)) {
+                url = url.replace(prefixUrl,"");
+            }
+            w.get(url, file);
         }
-        w.get(url, file);
+        else if(u.getProtocol().equals("file")) {
+            log.debug("Downloading from the local file : "+url);
+
+            try(OutputStream outputStream = new FileOutputStream(file)) {
+                IOUtils.copy(u.openStream(), outputStream);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Protocol " + u.getProtocol() + " is not supported.");
+        }
     }
+
 }

@@ -1,7 +1,11 @@
 package com.h3xstream.retirejs.util;
 
+import org.apache.commons.io.IOUtils;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.regex.Pattern;
 
 import static org.testng.Assert.assertEquals;
@@ -52,5 +56,16 @@ public class RegexUtilTest {
         String extractedVersion = RegexUtil.replaceMatch(dojoRegex,dojoContent);
 
         assertNull(extractedVersion);
+    }
+
+    /**
+     * This test make sure the bug #54 is fixed.
+     */
+    @Test
+    public void testRegexStackOverflow() throws IOException {
+        Pattern p = Pattern.compile("/\\*!?[\\n *]+jQuery UI ([0-9][0-9.a-z_\\\\\\\\-]+)(.*\\n)*.*\\.ui\\.dialog");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        IOUtils.copy(this.getClass().getResourceAsStream("/js/jquery-ui-1.6rc6-customized.js"),out);
+        assertNull(RegexUtil.simpleMatch(p,new String(out.toByteArray(),"UTF-8")));
     }
 }

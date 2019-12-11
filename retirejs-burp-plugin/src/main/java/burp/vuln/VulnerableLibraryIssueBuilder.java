@@ -38,7 +38,7 @@ public class VulnerableLibraryIssueBuilder {
                     title, //Title of the issue
                     description, //HTML description
                     mapToBurpSeverity(lib.getVuln().getSeverity()), //Severity .. Could be high, but the risk can never be confirm automatically..
-                    "Certain", //The library is old for sure .. if the app is vulnerable, not so sure..
+                    "Tentative", //The library is old for sure .. if the app is vulnerable, not so sure..
 
                     libraryName, //The two last info are used to differentiate the vuln.
                     path
