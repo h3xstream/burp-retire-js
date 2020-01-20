@@ -2,10 +2,13 @@ package org.zaproxy.zap.extension.retirejs;
 
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.vuln.TemplateBuilder;
+
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ZapIssueCreator {
     private static String TEMPLATE_DESC = "/org/zaproxy/zap/extension/retirejs/description.txt";
@@ -30,6 +33,7 @@ public class ZapIssueCreator {
                 lib.getVuln().getBelow());
 
         Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.CONFIDENCE_MEDIUM, title);
+        String evidence = getEvidence(lib, message);
         alert.setDetail(description,
                 message.getRequestHeader().getURI().toString(),
                 "", //Param
@@ -37,12 +41,35 @@ public class ZapIssueCreator {
                 otherInfo, //Other info
                 "Update the JavaScript library", //Solution
                 joinStrings(lib.getVuln().getInfo()), //Only one line is allow
-                "", //Evidence
+                evidence, //Evidence
                 -1, //cweId
                 -1, //wascId
                 message
         );
         return alert;
+    }
+
+    private static String getEvidence(JsLibraryResult lib, HttpMessage message) {
+        String evidence = "";
+        String responseRegex = lib.getRegexResponse() == null ? "" : lib.getRegexResponse();
+        if (!responseRegex.isEmpty()) {
+            String respBody = message.getResponseBody().toString();
+            Matcher respMatcher = Pattern.compile(responseRegex).matcher(respBody);
+            if (respMatcher.find()) {
+                evidence = respMatcher.group(0);
+            }
+        }
+        if (evidence.isEmpty()) { // The match wasn't from the response, try the request
+            String requestRegex = lib.getRegexRequest() == null ? "" : lib.getRegexRequest();
+            if (!requestRegex.isEmpty()) {
+                String reqUri = message.getRequestHeader().getURI().toString();
+                Matcher reqMatcher = Pattern.compile(requestRegex).matcher(reqUri);
+                if (reqMatcher.find()) {
+                    evidence = reqMatcher.group(0);
+                }
+            }
+        }
+        return evidence;
     }
 
     private static int mapToZapSeverity(String severity) {
