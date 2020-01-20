@@ -33,7 +33,6 @@ public class ZapIssueCreator {
                 lib.getVuln().getBelow());
 
         Alert alert = new Alert(pluginId, mapToZapSeverity(lib.getVuln().getSeverity()), Alert.CONFIDENCE_MEDIUM, title);
-        String evidence = getEvidence(lib, message);
         alert.setDetail(description,
                 message.getRequestHeader().getURI().toString(),
                 "", //Param
@@ -41,7 +40,7 @@ public class ZapIssueCreator {
                 otherInfo, //Other info
                 "Update the JavaScript library", //Solution
                 joinStrings(lib.getVuln().getInfo()), //Only one line is allow
-                evidence, //Evidence
+                getEvidence(lib, message), //Evidence
                 -1, //cweId
                 -1, //wascId
                 message
