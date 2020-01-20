@@ -49,8 +49,7 @@ public class ZapIssueCreator {
     }
 
     private static String getEvidence(JsLibraryResult lib, HttpMessage message) {
-        String evidence = "";
-        evidence = getSpecificEvidence(lib.getRegexResponse(),
+        String evidence = getSpecificEvidence(lib.getRegexResponse(),
                 message.getResponseBody().toString());
         if (evidence.isEmpty()) { // The match wasn't from the response, try the request URI
             evidence = getSpecificEvidence(lib.getRegexRequest(),
