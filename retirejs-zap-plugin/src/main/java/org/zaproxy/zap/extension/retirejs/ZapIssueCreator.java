@@ -53,20 +53,24 @@ public class ZapIssueCreator {
         String evidence = "";
         String responseRegex = lib.getRegexResponse() == null ? "" : lib.getRegexResponse();
         if (!responseRegex.isEmpty()) {
-            String respBody = message.getResponseBody().toString();
-            Matcher respMatcher = Pattern.compile(responseRegex).matcher(respBody);
-            if (respMatcher.find()) {
-                evidence = respMatcher.group(0);
-            }
+            evidence = getSpecificEvidence(responseRegex, message.getResponseBody().toString());
         }
-        if (evidence.isEmpty()) { // The match wasn't from the response, try the request
+        if (evidence.isEmpty()) { // The match wasn't from the response, try the request URI
             String requestRegex = lib.getRegexRequest() == null ? "" : lib.getRegexRequest();
             if (!requestRegex.isEmpty()) {
-                String reqUri = message.getRequestHeader().getURI().toString();
-                Matcher reqMatcher = Pattern.compile(requestRegex).matcher(reqUri);
-                if (reqMatcher.find()) {
-                    evidence = reqMatcher.group(0);
-                }
+                evidence = getSpecificEvidence(requestRegex,
+                        message.getRequestHeader().getURI().toString());
+            }
+        }
+        return evidence;
+    }
+
+    private static String getSpecificEvidence(String regex, String content) {
+        String evidence = "";
+        if (!regex.isEmpty()) {
+            Matcher matcher = Pattern.compile(regex).matcher(content);
+            if (matcher.find()) {
+                evidence = matcher.group(0);
             }
         }
         return evidence;
