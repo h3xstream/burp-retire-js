@@ -2,10 +2,13 @@ package org.zaproxy.zap.extension.retirejs;
 
 import com.h3xstream.retirejs.repo.JsLibraryResult;
 import com.h3xstream.retirejs.vuln.TemplateBuilder;
+
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ZapIssueCreator {
     private static String TEMPLATE_DESC = "/org/zaproxy/zap/extension/retirejs/description.txt";
@@ -37,12 +40,34 @@ public class ZapIssueCreator {
                 otherInfo, //Other info
                 "Update the JavaScript library", //Solution
                 joinStrings(lib.getVuln().getInfo()), //Only one line is allow
-                "", //Evidence
+                getEvidence(lib, message), //Evidence
                 -1, //cweId
                 -1, //wascId
                 message
         );
         return alert;
+    }
+
+    private static String getEvidence(JsLibraryResult lib, HttpMessage message) {
+        String evidence = getSpecificEvidence(lib.getRegexResponse(),
+                message.getResponseBody().toString());
+        if (evidence.isEmpty()) { // The match wasn't from the response, try the request URI
+            evidence = getSpecificEvidence(lib.getRegexRequest(),
+                    message.getRequestHeader().getURI().toString());
+        }
+        return evidence;
+    }
+
+    private static String getSpecificEvidence(String regex, String content) {
+        String evidence = "";
+        regex = regex == null ? "" : regex;
+        if (!regex.isEmpty()) {
+            Matcher matcher = Pattern.compile(regex).matcher(content);
+            if (matcher.find()) {
+                evidence = matcher.group(0);
+            }
+        }
+        return evidence;
     }
 
     private static int mapToZapSeverity(String severity) {
