@@ -19,7 +19,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <zap.addon.version>3</zap.addon.version>
+        <zap.addon.version>3.1.0</zap.addon.version>
         <zap.addon.status>alpha</zap.addon.status>
     </properties>
 
@@ -31,6 +31,9 @@
             <resource>
                 <directory>src/main/resources-filtered</directory>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/javahelp</directory>
             </resource>
         </resources>
     </build>
