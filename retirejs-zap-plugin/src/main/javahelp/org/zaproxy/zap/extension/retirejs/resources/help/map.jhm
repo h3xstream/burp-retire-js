@@ -4,5 +4,6 @@
          "http://java.sun.com/products/javahelp/map_1_0.dtd">
 
 <map version="1.0">
+    <mapID target="retirejs-icon" url="contents/images/retirejs_logo.png" />
     <mapID target="retirejs" url="contents/retirejs.html" />
 </map>
