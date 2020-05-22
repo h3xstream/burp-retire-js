@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.h3xstream.retirejs</groupId>
         <artifactId>retirejs-root-pom</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -19,7 +19,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <zap.addon.version>3</zap.addon.version>
+        <zap.addon.version>3.0.3</zap.addon.version>
         <zap.addon.status>alpha</zap.addon.status>
     </properties>
 
@@ -128,8 +128,8 @@
         </dependency>
 
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
             <scope>provided</scope>
         </dependency>
 
