@@ -3,6 +3,7 @@ package com.h3xstream.retirejs.repo;
 import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
+import org.json.JSONException;
 
 import static org.testng.Assert.assertTrue;
 
@@ -10,7 +11,7 @@ import static org.testng.Assert.assertTrue;
  * Used to test the lookup of the remote repository.
  */
 public class VulnerabilitiesRepositoryLoaderManualTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, JSONException {
         Log.DEBUG();
 
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;

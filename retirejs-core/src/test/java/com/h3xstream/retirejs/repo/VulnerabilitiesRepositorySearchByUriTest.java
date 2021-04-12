@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
+import org.json.JSONException;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Test the class VulnerabilitiesRepository
@@ -19,7 +19,7 @@ public class VulnerabilitiesRepositorySearchByUriTest {
     VulnerabilitiesRepository repo;
 
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, JSONException {
         Log.DEBUG();
 
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;

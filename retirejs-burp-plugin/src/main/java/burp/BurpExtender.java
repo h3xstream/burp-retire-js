@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONException;
 
 public class BurpExtender implements IBurpExtender, IScannerCheck {
 
@@ -64,7 +65,7 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
 
         try {
             ScannerFacade.loadInstance(new VulnerabilitiesRepositoryLoader().load(VulnerabilitiesRepositoryLoader.REPO_URL,new BurpUpstreamDownloader(this.callbacks)));
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             Log.error("ERROR: Problem occurs while preloading the RetireJS vulnerabilities",e);
         }
 
