@@ -15,6 +15,7 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
 
 import java.io.IOException;
 import java.util.List;
+import org.json.JSONException;
 
 public class RetireJsScannerPlugin extends PluginPassiveScanner {
 
@@ -68,19 +69,19 @@ public class RetireJsScannerPlugin extends PluginPassiveScanner {
             }
         } catch (URIException e) {
             logger.error("Unable to scan the script '"+uri.toString()+"': "+e.getMessage(),e);
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             logger.error("Unable to scan the script '"+uri.toString()+"': "+e.getMessage(),e);
         }
     }
 
-    private void scanJavaScriptFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException {
+    private void scanJavaScriptFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException, JSONException {
         List<JsLibraryResult> librariesVuln = ScannerFacade.getInstance().scanScript(scriptName, httpMessage.getResponseBody().getBytes(), 0);
         for(JsLibraryResult libVuln : librariesVuln) {
             Alert newAlert = ZapIssueCreator.convertBugToAlert(PLUGIN_ID, libVuln, httpMessage);
             this.parent.raiseAlert(refId, newAlert);
         }
     }
-    private void scanHtmlFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException {
+    private void scanHtmlFile(String scriptName,int refId,HttpMessage httpMessage) throws IOException, JSONException {
         List<JsLibraryResult> librariesVuln = ScannerFacade.getInstance().scanHtml(httpMessage.getResponseBody().getBytes(), 0);
         for(JsLibraryResult libVuln : librariesVuln) {
             Alert newAlert = ZapIssueCreator.convertBugToAlert(PLUGIN_ID, libVuln, httpMessage);
