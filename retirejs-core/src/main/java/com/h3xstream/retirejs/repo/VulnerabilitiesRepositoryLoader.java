@@ -7,17 +7,15 @@ import com.h3xstream.retirejs.util.RegexUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.*;
+import org.json.JSONException;
 
 public class VulnerabilitiesRepositoryLoader {
 
@@ -32,11 +30,11 @@ public class VulnerabilitiesRepositoryLoader {
      */
     public static final String REPO_URL = "https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json";
 
-    public VulnerabilitiesRepository load(String url) throws IOException {
+    public VulnerabilitiesRepository load(String url) throws IOException, JSONException {
         return load(url, new DefaultDownloader());
     }
 
-    public VulnerabilitiesRepository load(String url, Downloader dl) throws IOException {
+    public VulnerabilitiesRepository load(String url, Downloader dl) throws IOException, JSONException {
         if (url == null || url.length() == 0) {
             throw new IllegalArgumentException("url is null or empty");
         }
@@ -98,18 +96,19 @@ public class VulnerabilitiesRepositoryLoader {
         return loadFromInputStream(inputStream);
     }
 
-    public VulnerabilitiesRepository load() throws IOException {
+    public VulnerabilitiesRepository load() throws IOException, JSONException {
         return load(REPO_URL);
     }
 
-    public VulnerabilitiesRepository loadFromInputStream(InputStream in) throws IOException {
+    public VulnerabilitiesRepository loadFromInputStream(InputStream in) throws IOException, JSONException {
         JSONObject rootJson = new JSONObject(convertStreamToString(in));
 
 
         VulnerabilitiesRepository repo = new VulnerabilitiesRepository();
 
         int nbLoaded = 0;
-        Iterator it = rootJson.keySet().iterator(); //Iterate on each library jquery, YUI, prototypejs, ...
+
+        Iterator it = rootJson.keys(); //Iterate on each library jquery, YUI, prototypejs, ...
         while (it.hasNext()) {
             String key = (String) it.next();
             JSONObject libJson = rootJson.getJSONObject(key);
@@ -160,7 +159,7 @@ public class VulnerabilitiesRepositoryLoader {
 
     ///Convertion utility methods
 
-    public List<String> objToStringList(Object obj, boolean replaceVersionWildcard) {
+    public List<String> objToStringList(Object obj, boolean replaceVersionWildcard) throws JSONException {
         JSONArray array = (JSONArray) obj;
         List<String> strArray = new ArrayList<String>(array.length());
         for (int i = 0; i < array.length(); i++) { //Build Vulnerabilities list
@@ -174,11 +173,11 @@ public class VulnerabilitiesRepositoryLoader {
         return strArray;
     }
 
-    public Map<String, String> objToStringMap(Object obj) {
+    public Map<String, String> objToStringMap(Object obj) throws JSONException {
         Map<String, String> finalMap = new HashMap<String, String>();
 
         JSONObject jsonObj = (JSONObject) obj;
-        Iterator it = jsonObj.keySet().iterator();
+        Iterator it = jsonObj.keys();
         while (it.hasNext()) {
             String key = (String) it.next();
 
@@ -187,11 +186,11 @@ public class VulnerabilitiesRepositoryLoader {
         return finalMap;
     }
 
-    public Map<String, List<String>> objToStringMapMultiValues(Object obj) {
+    public Map<String, List<String>> objToStringMapMultiValues(Object obj) throws JSONException {
         Map<String, List<String>> finalMap = new HashMap<String, List<String>>();
 
         JSONObject jsonObj = (JSONObject) obj;
-        Iterator it = jsonObj.keySet().iterator();
+        Iterator it = jsonObj.keys();
         while (it.hasNext()) {
             String key = (String) it.next();
 
