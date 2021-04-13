@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.json.JSONException;
 
 public class ScannerFacade {
     private VulnerabilitiesRepository repo;
     private static ScannerFacade instance; //Singleton instance
 
-    private ScannerFacade() throws IOException {
+    private ScannerFacade() throws IOException, JSONException {
         this.repo = new VulnerabilitiesRepositoryLoader().load();
     }
 
@@ -31,7 +32,7 @@ public class ScannerFacade {
      * @return Will always return the same instance
      * @throws IOException Unable to load the repository
      */
-    public static ScannerFacade getInstance() throws IOException {
+    public static ScannerFacade getInstance() throws IOException, JSONException {
         if(instance == null) {
             instance = new ScannerFacade();
         }
