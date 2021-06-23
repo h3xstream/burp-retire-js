@@ -1,8 +1,6 @@
 package com.h3xstream.retirejs.repo;
 
 import com.esotericsoftware.minlog.Log;
-import com.h3xstream.retirejs.util.HashUtil;
-import org.apache.commons.io.IOUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -10,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
+import org.json.JSONException;
 import static org.testng.Assert.assertEquals;
 
 public class VulnerabilitiesRepositorySearchByHashTest {
@@ -17,7 +16,7 @@ public class VulnerabilitiesRepositorySearchByHashTest {
     VulnerabilitiesRepository repo;
 
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, JSONException {
         Log.DEBUG();
 
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;

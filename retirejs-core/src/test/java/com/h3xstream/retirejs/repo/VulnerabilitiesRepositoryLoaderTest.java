@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import org.json.JSONException;
 
 import static org.testng.Assert.assertTrue;
 
@@ -17,7 +18,7 @@ public class VulnerabilitiesRepositoryLoaderTest {
     }
 
     @Test
-    public void testRepositoryLoad() throws IOException {
+    public void testRepositoryLoad() throws IOException, JSONException {
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
 
 
@@ -29,7 +30,7 @@ public class VulnerabilitiesRepositoryLoaderTest {
 
 
     @Test(enabled=true) //Not sure if this test should be kept enabled by default since it create file in user dir
-    public void testRepositoryLoadRemote() throws IOException {
+    public void testRepositoryLoadRemote() throws IOException, JSONException {
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
 
 

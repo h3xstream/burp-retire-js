@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.h3xstream.retirejs.repo.PrettyDisplay.displayResults;
+import org.json.JSONException;
 import static org.testng.Assert.assertEquals;
 
 public class VulnerabilitiesRepositorySearchByFilenameTest {
     VulnerabilitiesRepository repo;
 
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, JSONException {
         Log.DEBUG();
 
         VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = true;
