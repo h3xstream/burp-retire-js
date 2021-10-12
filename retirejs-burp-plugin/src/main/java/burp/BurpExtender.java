@@ -73,6 +73,8 @@ public class BurpExtender implements IBurpExtender, IScannerCheck {
 
         //Not fully implemented (the passive scan rule is sufficient)
         //callbacks.registerMessageEditorTabFactory(this);
+        
+        stdout.println("Retire.js plugin loaded");
     }
 
 
