@@ -113,9 +113,7 @@ public class VulnerabilitiesRepository {
             }
             for(String contentRegex : lib.getFileContents()) {
 
-                //Extract version
-                Pattern p = Pattern.compile(contentRegex);
-                String version = RegexUtil.simpleMatch(p,scriptContent);
+                String version = extractVersion(scriptContent, contentRegex);
 
                 if(version != null) { //Pattern match
                     Log.debug("Pattern match \""+contentRegex+"\" !");
@@ -130,6 +128,18 @@ public class VulnerabilitiesRepository {
         long delta = System.currentTimeMillis()-before;
         Log.debug("It took ~"+ (int)(delta/1000.0) +" sec. (" + delta + " ms) to scan");
         return res;
+    }
+
+    private String extractVersion(String scriptContent, String contentRegex) {
+        try {
+            Pattern p = Pattern.compile(contentRegex);
+            String version = RegexUtil.simpleMatch(p,scriptContent);
+            return version;
+        }
+        catch (Exception any) {
+            Log.warn(String.format("Unable to extract version using regex '%s'", contentRegex));
+            return null;
+        }
     }
 
 

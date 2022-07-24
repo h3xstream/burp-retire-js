@@ -71,6 +71,9 @@ public class RegexUtil {
         if(regex.contains("\n")) {
             regex = regex.replaceAll("\n","\\\\n");
         }
+        if(regex.contains("[")) {
+            regex = regex.replaceAll("\\[\\]", "\\\\[\\\\]"); // see https://github.com/RetireJS/retire.js/issues/382 for jquery.datatables
+        }
         return regex;
     }
 }
