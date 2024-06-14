@@ -67,13 +67,19 @@ public class ScannerFacade {
         List<String> urls = new ArrayList<String>();
 
         for(String line : tokens) {
-            if(line.contains("<script") || line.contains("<SCRIPT")) { //This precondition avoid applyig an RegEx on every line
-                Pattern p = Pattern.compile("<[sS][cC][rR][iI][pP][tT][^>]*" + //script tags
-                        "[sS][rR][cC]=" + //src attribute
-                        "[\"']([^>]*)[\"']"); //URL between quotes
+            if (line.toLowerCase().contains("<script")) { //This precondition avoid applyig an RegEx on every line
+                Pattern p = Pattern.compile(
+                    "<script[^>]*" + //script tags
+                        "src=" + //src attribute
+                        "(?<src>\"[^\"]*?\"|'[^']*?'|\\S+)", //URL between quotes
+                    Pattern.CASE_INSENSITIVE);
+
                 Matcher m = p.matcher(line);
-                if(m.find()) {
-                    String urlScript = m.group(1);
+                if (m.find()) {
+                    String src = m.group("src");
+                    String urlScript = src.startsWith("\"") || src.startsWith("'")
+                        ? src.substring(1, src.length() - 1) // trim quotes
+                        : src;
                     urls.add(urlScript);
                 }
             }

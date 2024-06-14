@@ -147,4 +147,53 @@ public class ScannerFacadeTest {
         verify(repo).findByHash(DUMMY_SCRIPT_SHA1);
         verify(repo).findByFileContent(DUMMY_SCRIPT);
     }
+
+    @Test
+    public void uriMatchToHtml() throws IOException {
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
+
+        //Init. mock
+        VulnerabilitiesRepository repo = mock(VulnerabilitiesRepository.class);
+        when(repo.findByUri("/js/yolo.js")).thenReturn(ONE_RESULT);
+
+        //Call the scanner logic
+        ScannerFacade scanner = new ScannerFacade(repo);
+        List<JsLibraryResult> results = scanner.scanHtml((
+            "<sCrIpT sRc=\"/js/yolo.js\" type=\"text/javascript\"></sCrIpT>" + // double quote
+            "<sCrIpT sRc='/js/yolo.js' type='text/javascript'></sCrIpT>" +     // single quote
+            "<sCrIpT sRc=/js/yolo.js type=text/javascript></sCrIpT>"           // no quote
+        ).getBytes(),0);
+
+        //Assertions
+        assertEquals(results.size(),3,"Expect one result.");
+        verify(repo,times(3)).findByUri("/js/yolo.js");
+        verify(repo,never()).findByFilename(anyString());
+        verify(repo,never()).findByHash(anyString());
+        verify(repo,never()).findByFileContent(anyString());
+    }
+
+    @Test
+    public void filenameMatchToHtml() throws IOException {
+        VulnerabilitiesRepositoryLoader.syncWithOnlineRepository = false;
+
+        //Init. mock
+        VulnerabilitiesRepository repo = mock(VulnerabilitiesRepository.class);
+        when(repo.findByUri("/js/yolo.js")).thenReturn(EMPTY_RESULT);
+        when(repo.findByFilename("yolo.js")).thenReturn(ONE_RESULT);
+
+        //Call the scanner logic
+        ScannerFacade scanner = new ScannerFacade(repo);
+        List<JsLibraryResult> results = scanner.scanHtml((
+            "<sCrIpT sRc=\"/js/yolo.js\" type=\"text/javascript\"></sCrIpT>" + // double quote
+            "<sCrIpT sRc='/js/yolo.js' type='text/javascript'></sCrIpT>" +     // single quote
+            "<sCrIpT sRc=/js/yolo.js type=text/javascript></sCrIpT>"           // no quote
+        ).getBytes(),0);
+
+        //Assertions
+        assertEquals(results.size(),3,"Expect one result.");
+        verify(repo,times(3)).findByUri("/js/yolo.js");
+        verify(repo,times(3)).findByFilename("yolo.js");
+        verify(repo,never()).findByHash(anyString());
+        verify(repo,never()).findByFileContent(anyString());
+    }
 }
